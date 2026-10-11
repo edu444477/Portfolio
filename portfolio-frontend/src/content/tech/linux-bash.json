@@ -1,0 +1,10 @@
+{
+  "name": "Linux/Bash",
+  "category": "tools",
+  "level": "intermediate",
+  "years": 2,
+  "icon": "linux",
+  "color": "#FCC624",
+  "description": "Scripting, SSH, procesos, permisos, systemd, nginx básico",
+  "link": "https://linux.org"
+}

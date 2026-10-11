@@ -1,0 +1,10 @@
+{
+  "name": "Vercel",
+  "category": "devops",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "vercel",
+  "color": "#000000",
+  "description": "Static/SSR deploy, edge functions, preview deployments, analytics",
+  "link": "https://vercel.com"
+}

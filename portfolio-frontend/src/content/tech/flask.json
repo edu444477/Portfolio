@@ -1,0 +1,10 @@
+{
+  "name": "Flask",
+  "category": "backend",
+  "level": "advanced",
+  "years": 2,
+  "icon": "flask",
+  "color": "#000000",
+  "description": "RESTful, JWT, SQLAlchemy, Migrate, testing, Blueprints",
+  "link": "https://flask.palletsprojects.com"
+}

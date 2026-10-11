@@ -1,0 +1,10 @@
+{
+  "name": "OpenCode / IA Agents",
+  "category": "ai",
+  "level": "learning",
+  "years": 0.5,
+  "icon": "opencode",
+  "color": "#00D4AA",
+  "description": "SDD, multi-agent (coordinator/planner/implementer/reviewer), skills, MCP",
+  "link": "https://opencode.ai"
+}

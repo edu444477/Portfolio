@@ -1,0 +1,10 @@
+{
+  "name": "Python",
+  "category": "languages",
+  "level": "advanced",
+  "years": 3,
+  "icon": "python",
+  "color": "#3776AB",
+  "description": "FastAPI, Flask, SQLAlchemy, Pydantic, pytest, async/await",
+  "link": "https://python.org"
+}

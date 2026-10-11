@@ -1,0 +1,10 @@
+{
+  "name": "GitHub Actions",
+  "category": "devops",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "github",
+  "color": "#2088FF",
+  "description": "Workflows, matrices, caching, deployments, security scanning",
+  "link": "https://github.com/features/actions"
+}

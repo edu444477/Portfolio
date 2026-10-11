@@ -1,0 +1,10 @@
+{
+  "name": "Render",
+  "category": "devops",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "render",
+  "color": "#46E3B7",
+  "description": "Web services, static sites, managed PostgreSQL/Redis, custom domains",
+  "link": "https://render.com"
+}

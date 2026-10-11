@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import { ExternalLinkIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, Badge, Tag } from '@/components/ui';
+import type { ProjectEntry } from '@/content/config';
+
+const projects = await getCollection('projects');
+const featuredProjects = projects.filter((p) => p.data.featured).sort((a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime());
+const otherProjects = projects.filter((p) => !p.data.featured).sort((a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime());
+---
+<section id="proyectos" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8" aria-labelledby="projects-title">
+  <div className="mx-auto max-w-7xl">
+    <header className="text-center max-w-3xl mx-auto mb-12">
+      <h2 id="projects-title" className="text-3xl sm:text-4xl font-bold text-dark-900 dark:text-dark-100 mb-4">
+        Proyectos <span className="text-primary-600 dark:text-primary-400">destacados</span>
+      </h2>
+      <p className="text-lg text-dark-600 dark:text-dark-400">
+        Una selección de trabajos que demuestran mi capacidad para resolver problemas reales con código limpio y arquitectura sólida
+      </p>
+    </header>
+
+    {featuredProjects.length > 0 && (
+      <section aria-labelledby="featured-title" className="mb-16">
+        <h3 id="featured-title" className="sr-only">Proyectos destacados</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {featuredProjects.map((project) => {
+            const data = project.data as ProjectEntry;
+            return (
+              <article className="group">
+                <Card variant="interactive" padding="lg" className="h-full flex flex-col">
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <CardTitle className="text-2xl group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{data.title}</CardTitle>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {data.techStack.slice(0, 6).map((tech) => (
+                            <Tag key={tech} variant="tech">{tech}</Tag>
+                          ))}
+                          {data.techStack.length > 6 && (
+                            <Tag variant="tech">+{data.techStack.length - 6} más</Tag>
+                          )}
+                        </div>
+                      </div>
+                      <Badge variant={data.status === 'completed' ? 'success' : data.status === 'in-progress' ? 'warning' : 'info'} size="sm">
+                        {data.status === 'completed' ? 'Completado' : data.status === 'in-progress' ? 'En progreso' : data.status === 'planned' ? 'Planificado' : 'Archivado'}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex-1">
+                    <p className="text-dark-600 dark:text-dark-400 mb-6 leading-relaxed">{data.description}</p>
+
+                    {data.challenges && data.challenges.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="font-medium text-dark-900 dark:text-dark-100 mb-2">Retos principales</h4>
+                        <ul className="space-y-1.5">
+                          {data.challenges.map((challenge, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-dark-600 dark:text-dark-400">
+                              <svg className="w-4 h-4 text-primary-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                              {challenge}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </CardContent>
+                  <CardFooter>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        {data.repoUrl && (
+                          <a href={data.repoUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-dark-500 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1">
+                            <ExternalLinkIcon className="w-4 h-4" aria-hidden="true" />
+                            Código
+                          </a>
+                        )}
+                        {data.liveUrl && (
+                          <a href={data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-dark-500 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1">
+                            <ExternalLinkIcon className="w-4 h-4" aria-hidden="true" />
+                            Demo
+                          </a>
+                        )}
+                      </div>
+                      <a href={`/projects/${project.slug}`} className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex items-center gap-1 transition-colors">
+                        Ver detalle
+                        <ChevronRightIcon className="w-4 h-4" aria-hidden="true" />
+                      </a>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </article>
+            )
+          })}
+        </div>
+      </section>
+    )}
+
+    {otherProjects.length > 0 && (
+      <section aria-labelledby="other-title">
+        <h3 id="other-title" className="text-2xl font-bold text-dark-900 dark:text-dark-100 mb-8">Otros proyectos</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {otherProjects.map((project) => {
+            const data = project.data as ProjectEntry;
+            return (
+              <article key={project.slug}>
+                <Card variant="bordered" padding="md" className="h-full flex flex-col">
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-4">
+                      <CardTitle className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{data.title}</CardTitle>
+                      <Badge variant={data.status === 'completed' ? 'success' : 'warning'} size="sm">
+                        {data.status === 'completed' ? 'Completado' : 'En progreso'}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex-1">
+                    <p className="text-dark-600 dark:text-dark-400 text-sm mb-4 line-clamp-3">{data.shortDescription}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {data.techStack.slice(0, 5).map((tech) => (
+                        <Tag key={tech} variant="tech" className="text-xs">{tech}</Tag>
+                      ))}
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <a href={`/projects/${project.slug}`} className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex items-center gap-1 w-full justify-center transition-colors">
+                      Ver proyecto
+                      <ChevronRightIcon className="w-4 h-4" aria-hidden="true" />
+                    </a>
+                  </CardFooter>
+                </Card>
+              </article>
+            )
+          })}
+        </div>
+      </section>
+    )}
+  </div>
+</section>

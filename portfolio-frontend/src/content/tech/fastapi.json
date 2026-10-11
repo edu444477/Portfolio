@@ -1,0 +1,10 @@
+{
+  "name": "FastAPI",
+  "category": "backend",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "fastapi",
+  "color": "#009688",
+  "description": "Async, Pydantic v2, dependency injection, OpenAPI automático",
+  "link": "https://fastapi.tiangolo.com"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "TypeScript",
+  "category": "languages",
+  "level": "advanced",
+  "years": 2,
+  "icon": "typescript",
+  "color": "#3178C6",
+  "description": "Tipado estricto, generics, utility types, configuración estricta",
+  "link": "https://www.typescriptlang.org"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "React",
+  "category": "frontend",
+  "level": "advanced",
+  "years": 2,
+  "icon": "react",
+  "color": "#61DAFB",
+  "description": "Hooks, Context, Router, Testing Library, Next.js basics",
+  "link": "https://react.dev"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Docker",
+  "category": "devops",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "docker",
+  "color": "#2496ED",
+  "description": "Multi-stage builds, Compose, volúmenes, redes, optimización capas",
+  "link": "https://docker.com"
+}

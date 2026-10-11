@@ -1,0 +1,10 @@
+{
+  "name": "PostgreSQL",
+  "category": "database",
+  "level": "advanced",
+  "years": 2,
+  "icon": "postgresql",
+  "color": "#4169E1",
+  "description": "Diseño relacional, índices, JSONB, particiones, pgBouncer",
+  "link": "https://postgresql.org"
+}

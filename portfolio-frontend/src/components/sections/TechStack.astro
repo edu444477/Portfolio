@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import { Card, CardContent, Badge } from '@/components/ui';
+
+const techStack = await getCollection('tech');
+
+const categories = [
+  { key: 'languages', label: 'Lenguajes', icon: 'code' },
+  { key: 'frontend', label: 'Frontend', icon: 'globe' },
+  { key: 'backend', label: 'Backend', icon: 'server' },
+  { key: 'database', label: 'Bases de datos', icon: 'database' },
+  { key: 'devops', label: 'DevOps & Cloud', icon: 'cloud' },
+  { key: 'tools', label: 'Herramientas', icon: 'wrench' },
+  { key: 'testing', label: 'Testing', icon: 'beaker' },
+  { key: 'ai', label: 'IA & Agentes', icon: 'sparkles' },
+  { key: 'frameworks', label: 'Frameworks', icon: 'cube' },
+  { key: 'other', label: 'Otros', icon: 'dots' },
+] as const;
+
+const categoryOrder = ['languages', 'frontend', 'backend', 'database', 'devops', 'tools', 'testing', 'ai', 'frameworks', 'other'] as const;
+
+const levelColors = {
+  expert: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border-purple-200 dark:border-purple-800',
+  advanced: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800',
+  intermediate: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 border-green-200 dark:border-green-800',
+  beginner: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800',
+  learning: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 border-orange-200 dark:border-orange-800',
+};
+
+const levelLabels = {
+  expert: 'Experto',
+  advanced: 'Avanzado',
+  intermediate: 'Intermedio',
+  beginner: 'Principiante',
+  learning: 'Aprendiendo',
+};
+---
+<section id="tecnologias" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8" aria-labelledby="tech-title">
+  <div className="mx-auto max-w-7xl">
+    <header className="text-center max-w-3xl mx-auto mb-16">
+      <h2 id="tech-title" className="text-3xl sm:text-4xl font-bold text-dark-900 dark:text-dark-100 mb-4">
+        Stack <span className="text-primary-600 dark:text-primary-400">tecnológico</span>
+      </h2>
+      <p className="text-lg text-dark-600 dark:text-dark-400">
+        Herramientas y tecnologías que domino y uso en mi día a día
+      </p>
+    </header>
+
+    <div className="space-y-12">
+      {categoryOrder.map((catKey) => {
+        const category = techStack.filter((t) => t.data.category === catKey);
+        if (category.length === 0) return null;
+
+        const catInfo = categories.find((c) => c.key === catKey)!;
+
+        return (
+          <section key={catKey} aria-labelledby={`tech-${catKey}`}>
+            <h3 id={`tech-${catKey}`} className="text-xl font-semibold text-dark-900 dark:text-dark-100 mb-6 flex items-center gap-2 pb-2 border-b border-dark-200 dark:border-dark-700">
+              <span className="text-primary-600 dark:text-primary-400">{catInfo.label}</span>
+              <span className="text-sm font-normal text-dark-500 dark:text-dark-400">({category.length})</span>
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {category.map((tech) => {
+                const data = tech.data;
+                return (
+                  <Card key={tech.slug} variant="bordered" padding="md" className="group hover:border-primary-300 dark:hover:border-primary-700 transition-colors">
+                    <CardContent className="flex flex-col h-full">
+                      <div className="flex items-start justify-between gap-4 mb-3">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-dark-900 dark:text-dark-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{data.name}</h4>
+                          {data.years && (
+                            <p className="text-sm text-dark-500 dark:text-dark-400 mt-0.5">{data.years}{data.years === 1 ? ' año' : ' años'}</p>
+                          )}
+                        </div>
+                        <Badge variant="outline" size="sm" className={levelColors[data.level]}>{levelLabels[data.level]}</Badge>
+                      </div>
+                      {data.description && (
+                        <p className="text-sm text-dark-500 dark:text-dark-400 mb-3 line-clamp-2">{data.description}</p>
+                      )}
+                      <div className="flex items-center gap-2 mt-auto">
+                        {data.link && (
+                          <a href={data.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            Docs
+                          </a>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </section>
+        )
+      })}
+    </div>
+
+    <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-primary-600 to-primary-800 text-white text-center">
+      <h3 className="text-2xl font-bold mb-2">¿No ves lo que buscas?</h3>
+      <p className="mb-6 opacity-90 max-w-2xl mx-auto">Estoy en constante aprendizaje. Si tu proyecto requiere tecnologías no listadas, hablamos y me pongo al día rápido.</p>
+      <a href="#contacto" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white/20 hover:bg-white/30 font-semibold transition-colors border-2 border-white/30">
+        Contactar
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

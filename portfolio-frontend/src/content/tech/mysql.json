@@ -1,0 +1,10 @@
+{
+  "name": "MySQL",
+  "category": "database",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "mysql",
+  "color": "#4479A1",
+  "description": "InnoDB, replicación, optimización consultas, migraciones",
+  "link": "https://mysql.com"
+}

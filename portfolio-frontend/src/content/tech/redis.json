@@ -1,0 +1,10 @@
+{
+  "name": "Redis",
+  "category": "database",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "redis",
+  "color": "#DC382D",
+  "description": "Caché, sesiones, rate limiting, pub/sub, streams",
+  "link": "https://redis.io"
+}

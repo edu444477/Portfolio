@@ -1,0 +1,10 @@
+{
+  "name": "Tailwind CSS",
+  "category": "frontend",
+  "level": "advanced",
+  "years": 2,
+  "icon": "tailwind",
+  "color": "#06B6D4",
+  "description": "Utility-first, dark mode, responsive, plugins, JIT compiler",
+  "link": "https://tailwindcss.com"
+}
