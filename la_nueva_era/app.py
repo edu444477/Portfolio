@@ -15,6 +15,7 @@ from resources.perfil_resource import PerfilResource, CambiarContrasenaResource
 from resources.deseo_resource import DeseoListResource, DeseoItemResource, DeseoIDsResource
 from resources.intercambio_resource import IntercambioResource
 from resources.newsletter_resource import NewsletterSubscribeResource
+from resources.health_resource import HealthResource
 
 # Importar los modelos
 from models import (
@@ -90,15 +91,18 @@ def register_api_resources(app):
     # Endpoints para la newsletter
     api.add_resource(NewsletterSubscribeResource, '/api/newsletter/subscribe')
 
+    # Healthcheck (lo usa Render para decidir si el servicio esta vivo)
+    api.add_resource(HealthResource,               '/api/health')
+
 # Si necesitamos un filtro strftime para plantillas Jinja2
 # def strftime_filter(value, format='%Y-%m-%d %H:%M'):
 #    if value is None:
 #        return ""
 #    return value.strftime(format)
 
-current_app = create_app()
+app = create_app()
 
-@current_app.shell_context_processor
+@app.shell_context_processor
 def make_shell_context():
     # Esto permite acceder a 'db' y a los modelos desde 'flask shell'
     return dict(
@@ -108,8 +112,8 @@ def make_shell_context():
         DetallePedido=DetallePedido, Valoracion=Valoracion
     )
 
-@current_app.route('/')
-@current_app.route('/<path:path>')
+@app.route('/')
+@app.route('/<path:path>')
 def serve_react_app(path=None):
     """
     Sirve el index.html principal para la aplicación React.

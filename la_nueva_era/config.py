@@ -1,5 +1,4 @@
 import os
-from urllib.parse import urlparse
 
 
 class Config:
@@ -20,7 +19,11 @@ class Config:
         if 'options=' not in database_url:
             separator = '&' if '?' in database_url else '?'
             database_url += f'{separator}options=-csearch_path%3Dtfg'
-    SQLALCHEMY_DATABASE_URI = database_url or "postgresql://localhost/tfg"
+        # SQLAlchemy 2.x usa el driver psycopg (v3) para 'postgresql://', pero
+        # instalamos psycopg2. Hay que fijar el dialecto explicitamente.
+        if database_url.startswith('postgresql://'):
+            database_url = database_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+    SQLALCHEMY_DATABASE_URI = database_url or "postgresql+psycopg2://localhost/tfg"
 
     # CORS
     CORS_ORIGINS = os.environ.get('CORS_ORIGINS', 'http://localhost:5173').split(',')
