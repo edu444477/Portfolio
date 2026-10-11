@@ -63,6 +63,7 @@ const tech = defineCollection({
     color: z.string().optional(),
     description: z.string().optional(),
     link: z.string().url().optional(),
+    source: z.enum(['cv', 'tfg', 'portfolio']),
   }),
 });
 

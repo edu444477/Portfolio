@@ -1,0 +1,11 @@
+{
+  "name": "HTML",
+  "category": "frontend",
+  "level": "advanced",
+  "years": 3,
+  "icon": "html",
+  "color": "#E34F26",
+  "description": "HTML5 semántico, accesibilidad, formularios, multimedia",
+  "link": "https://developer.mozilla.org/en-US/docs/Web/HTML",
+  "source": "cv"
+}

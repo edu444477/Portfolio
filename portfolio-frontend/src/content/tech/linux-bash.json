@@ -6,5 +6,6 @@
   "icon": "linux",
   "color": "#FCC624",
   "description": "Scripting, SSH, procesos, permisos, systemd, nginx básico",
-  "link": "https://linux.org"
+  "link": "https://linux.org",
+  "source": "portfolio"
 }

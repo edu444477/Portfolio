@@ -19,7 +19,7 @@ services:
       - key: FLASK_ENV
         value: production
       - key: CORS_ORIGINS
-        value: https://portfolio-edu444477.vercel.app
+        value: https://portfolio-delta-eight-yx2zi6pmny.vercel.app
       # Secrets: NO van aquí. Defínelos en Render Dashboard → Environment.
       # - key: DATABASE_URL      (sync: Neon pooled + &options=-csearch_path%3Dtfg)
       # - key: REDIS_URL         (Upstash: redis://default:TOKEN@ENDPOINT:6379)

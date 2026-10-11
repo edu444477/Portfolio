@@ -9,7 +9,8 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Upstash**: DB `natural-rattler-221300`, REST URL + token disponibles
 - **Render**: Web Service `la-nueva-era-api` creado, deploy desde GitHub (repo `edu444477/Portfolio`)
 - **Vercel**: proyecto creado, deploy falló (repo vacío al momento). Root Directory: `portfolio-frontend`
-- **TFG (la_nueva_era/)**: Flask 3 + Flask-RESTful + SQLAlchemy + JWT + React 18 (TFG e-commerce). requirements.txt, config.py (Neon+search_path), Dockerfile, entrypoint.sh, alembic.ini, .env.example creados. Falta endpoint `/api/health` para el healthcheck de Render
+- **Render**: servicio desplegado y **funcionando**. URL real: `https://la-nueva-era-api.onrender.com`. `/api/health` devuelve 200. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app:app"`. Render NO lee render.yaml salvo Blueprint: el dashboard manda.
+- **TFG (la_nueva_era/)**: Flask 3 + Flask-RESTful + SQLAlchemy + JWT + React 18 (TFG e-commerce). Deploy OK tras 3 bugs: dialecto psycopg2, /api/health, doble instancia de app. Falta migrar datos de MySQL → Neon y servir el build de React.
 - **Frontend (portfolio-frontend/)**: base creada (package.json, astro.config.mjs, tailwind.config.mjs, tsconfig.json, vercel.json, .env.example, content/config.ts, content/projects/la_nueva_era.mdx, content/experience/2024_tfg.mdx, content/tech/stack.json, components/ui/*, components/layout/*, components/sections/*). FALTA: pages (index.astro, projects/[slug].astro, api/contact.ts), styles/global.css, lib/utils.ts, lib/constants.ts, .env.local
 - **.opencode/ COMPLETO**: 4 agents (coordinator, planner, implementer, reviewer), 10 commands (feature + 9 sdd-*), 5 skills propias (sdd, astro-react-tailwind, python-backend, deployment, accessibility) + README de skills de comunidad
 - **Docs**: docs/constitution.md (6 principios), docs/deployment.md (guía completa)
@@ -28,22 +29,24 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 
 ## Aprendizajes y errores a evitar
 
-- **Vercel falla con "astro: command not found"** si el Root Directory no es `portfolio-frontend` o si no hay `package.json` ahí. Verificar siempre el root dir en Vercel settings.
-- **Render: "we don't have access to your repo"**: la GitHub App de Render necesita acceso explícito al repo. Configurar en Render → Settings → Repository.
-- **Neon connection string**: la pooled connection tiene `-pooler` en el hostname y `channel_binding=require` en los params. No quitarlo.
-- **Upstash REST vs Redis URL**: `UPSTASH_REDIS_REST_URL` es para HTTP (requests), `REDIS_URL` es para clientes Redis nativos (aioredis, redis-py). Render necesita `REDIS_URL` formato `redis://`.
-- **Content Collections**: si el schema Zod requiere un campo y un MDX no lo tiene, `npm run build` falla. Todos los MDX deben cumplir el schema.
+- **SQLAlchemy 2.x + `postgresql://`** → usa el driver psycopg v3. Con `psycopg2-binary` hay que forzar `postgresql+psycopg2://`. Error en runtime: `ModuleNotFoundError: No module named 'psycopg'`.
+- **`current_app = create_app()` + gunicorn `app:create_app()`** → dos motores SQLAlchemy por proceso. Expón `app = create_app()` y arranca con `app:app`.
+- **Vercel sin vercel.json en la raíz del monorepo** → `astro: command not found`. El vercel.json va en la raíz con `cd portfolio-frontend && npm run build`.
+- **Vercel `rewrites: /(.*) → /index.html`** → secuestra todas las rutas y mata `/projects/*`. Un sitio estático de Astro no necesita rewrites.
+- **Render root directory** → si Render dice que no existe, casi siempre es mayúscula/espacio/barra en el campo del dashboard. El repo estaba bien.
+- **Render sin acceso al repo** → clona anónimamente pero no recibe webhooks: hay que reconnect o cada push exige Manual Deploy.
+- **Content Collections `type: 'data'`** → un objeto por archivo. Un array en un solo `.json` rompe el sync (`Expected type "object", received "array"`). technologies va en 17 ficheros sueltos.
+- **Neon connection string**: pooled lleva `-pooler` en el hostname y `channel_binding=require`. No quitarlo. Añadir siempre `&options=-csearch_path%3Dtfg`.
 
 ## Próximos pasos
 
-- [ ] **Reiniciar OpenCode** (`/exit` y `opencode`) para cargar agents, commands y skills nuevos
-- [ ] **Crear Spec 001** con `/sdd-spec 001-portfolio-foundation "..."` para las pages y layout del frontend
-- [ ] Implementar las tareas de spec 001 (pages, styles, lib, api/contact)
-- [ ] Verificar build local: `cd portfolio-frontend && npm install && npm run build`
-- [ ] `git add . && git commit && git push` → deploy Vercel + Render
-- [ ] Añadir `/api/health` a la_nueva_era/app.py (healthcheck de Render)
-- [ ] Verificar deploy: Vercel build en verde + Render `/api/health` responde
-- [ ] Migrar datos de MySQL (PythonAnywhere) → PostgreSQL Neon schema `tfg`
-- [ ] Verificar TFG end-to-end (React SPA + Flask API + Neon DB + Upstash)
-- [ ] Spec 002: portfolio-backend/ con FastAPI + agentes IA en producción
+- [ ] **Spec 001 aprobada**: `specs/001-portfolio-foundation/spec.md` en borrador (30 RF + 9 RFN, bilingüe es/en). Pendiente: clarificación, plan, tareas
+- [ ] `/sdd-clarify 001-portfolio-foundation` → revisar la spec como QA antes de planear
+- [ ] `/sdd-plan` + `/sdd-tasks` → tareas de implementación (pages, i18n, global.css, constants.ts, api/contact)
+- [ ] `/sdd-implement 001-portfolio-foundation T1` → desbloquear el 404 de Vercel
+- [ ] Migrar tablas MySQL (PythonAnywhere) → Neon schema `tfg` (`flask db upgrade` + exportar/importar datos)
+- [ ] Servir el build de React del TFG: `templates/static/assets/` + `templates/index.html` ya están; falta comprobar que las rutas `/assets/...` resuelven en Flask
+- [ ] Verificar CORS real desde `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` contra la API
+- [ ] Conectar Upstash: usar `REDIS_URL` para blacklist de JWT y rate limiting
+- [ ] Spec 002: `portfolio-backend/` con FastAPI + agentes IA en producción
 - [ ] Spec 003: primer proyecto Node.js (schema `node_api`)

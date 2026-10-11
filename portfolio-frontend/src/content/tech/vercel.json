@@ -6,5 +6,6 @@
   "icon": "vercel",
   "color": "#000000",
   "description": "Static/SSR deploy, edge functions, preview deployments, analytics",
-  "link": "https://vercel.com"
+  "link": "https://vercel.com",
+  "source": "portfolio"
 }

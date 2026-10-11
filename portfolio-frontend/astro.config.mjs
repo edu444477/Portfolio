@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://portfolio-edu444477.vercel.app',
+  site: 'https://portfolio-delta-eight-yx2zi6pmny.vercel.app',
   integrations: [
     react(),
     tailwind(),

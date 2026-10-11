@@ -1,0 +1,11 @@
+{
+  "name": "Bitbucket",
+  "category": "tools",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "bitbucket",
+  "color": "#0052CC",
+  "description": "Repositorios Git, pipelines, pull requests, integración Jira",
+  "link": "https://bitbucket.org",
+  "source": "cv"
+}

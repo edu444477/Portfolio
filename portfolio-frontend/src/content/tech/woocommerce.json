@@ -1,0 +1,11 @@
+{
+  "name": "WooCommerce",
+  "category": "other",
+  "level": "intermediate",
+  "years": 1,
+  "icon": "woocommerce",
+  "color": "#A46497",
+  "description": "E-commerce sobre WordPress, productos, pasarelas, suscripciones",
+  "link": "https://woocommerce.com",
+  "source": "cv"
+}

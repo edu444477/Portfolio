@@ -6,5 +6,6 @@
   "icon": "docker",
   "color": "#2496ED",
   "description": "Multi-stage builds, Compose, volúmenes, redes, optimización capas",
-  "link": "https://docker.com"
+  "link": "https://docker.com",
+  "source": "tfg"
 }

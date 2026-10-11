@@ -6,5 +6,6 @@
   "icon": "python",
   "color": "#3776AB",
   "description": "FastAPI, Flask, SQLAlchemy, Pydantic, pytest, async/await",
-  "link": "https://python.org"
+  "link": "https://python.org",
+  "source": "tfg"
 }

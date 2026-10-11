@@ -6,5 +6,6 @@
   "icon": "redis",
   "color": "#DC382D",
   "description": "Caché, sesiones, rate limiting, pub/sub, streams",
-  "link": "https://redis.io"
+  "link": "https://redis.io",
+  "source": "tfg"
 }

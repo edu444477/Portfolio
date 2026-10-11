@@ -27,7 +27,7 @@ Cada proyecto usa **su propio schema** de PostgreSQL. No uses prefijos de tabla:
 | `JWT_SECRET_KEY` | `openssl rand -hex 32` (nunca en el repo) |
 | `SECRET_KEY` | `openssl rand -hex 32` (distinto del anterior) |
 | `FLASK_ENV` | `production` |
-| `CORS_ORIGINS` | `https://portfolio-edu444477.vercel.app` (comma-separated, sin barra final) |
+| `CORS_ORIGINS` | `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` (comma-separated, sin barra final) |
 | `PYTHON_VERSION` | `3.11.0` |
 
 ### portfolio-frontend (Vercel)
@@ -64,7 +64,7 @@ Solo variables `PUBLIC_*` llegan al cliente. Cualquier otra es secreta de Vercel
 
 ## Verificación
 
-1. Frontend: Vercel build logs en verde + `curl -I https://portfolio-edu444477.vercel.app` devuelve 200.
+1. Frontend: Vercel build logs en verde + `curl -I https://portfolio-delta-eight-yx2zi6pmny.vercel.app` devuelve 200.
 2. API: `curl https://la-nueva-era-api.onrender.com/api/health` devuelve `{"status":"ok"}`.
 3. DB: desde Neon SQL Editor, `SELECT current_schema();` debe devolver el schema del proyecto.
 4. Integración: el frontend carga datos de la API sin errores CORS en la consola del navegador.

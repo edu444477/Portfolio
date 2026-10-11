@@ -6,5 +6,6 @@
   "icon": "react",
   "color": "#61DAFB",
   "description": "Hooks, Context, Router, Testing Library, Next.js basics",
-  "link": "https://react.dev"
+  "link": "https://react.dev",
+  "source": "cv"
 }

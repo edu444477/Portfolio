@@ -6,7 +6,7 @@ Arquitectura: frontend estático en Vercel, APIs en Render, PostgreSQL en Neon, 
 
 | Componente | Plataforma | URL | Plan |
 |---|---|---|---|
-| Frontend | Vercel | `https://portfolio-edu444477.vercel.app` | Free |
+| Frontend | Vercel | `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` | Free |
 | API Flask (TFG) | Render | `https://la-nueva-era-api.onrender.com` | Free (750h/mes) |
 | PostgreSQL | Neon | pooled: `ep-*.eu-central-1.aws.neon.tech` | Free (3GB) |
 | Redis | Upstash | `*.upstash.io:6379` | Free (10K req/día) |
@@ -60,7 +60,7 @@ Variables de entorno (Render → Environment):
 | `JWT_SECRET_KEY` | `openssl rand -hex 32` |
 | `SECRET_KEY` | `openssl rand -hex 32` (distinto) |
 | `FLASK_ENV` | `production` |
-| `CORS_ORIGINS` | `https://portfolio-edu444477.vercel.app` |
+| `CORS_ORIGINS` | `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` |
 | `PYTHON_VERSION` | `3.11.0` |
 
 ### Neon (PostgreSQL)
@@ -107,7 +107,7 @@ Vercel y Render hacen deploy automático. No hay pasos manuales.
 
 ```bash
 # Frontend
-curl -I https://portfolio-edu444477.vercel.app
+curl -I https://portfolio-delta-eight-yx2zi6pmny.vercel.app
 
 # API
 curl https://la-nueva-era-api.onrender.com/api/health

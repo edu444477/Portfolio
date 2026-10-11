@@ -6,5 +6,6 @@
   "icon": "astro",
   "color": "#FF5D01",
   "description": "Islands, content collections, MDX, partial hydration, performance",
-  "link": "https://astro.build"
+  "link": "https://astro.build",
+  "source": "portfolio"
 }

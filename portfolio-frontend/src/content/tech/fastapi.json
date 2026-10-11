@@ -6,5 +6,6 @@
   "icon": "fastapi",
   "color": "#009688",
   "description": "Async, Pydantic v2, dependency injection, OpenAPI automático",
-  "link": "https://fastapi.tiangolo.com"
+  "link": "https://fastapi.tiangolo.com",
+  "source": "portfolio"
 }

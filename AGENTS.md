@@ -30,7 +30,7 @@ Incluye múltiples proyectos reales (TFG "La Nueva Era", futuros proyectos Node.
 
 ## Convenciones
 
-- **Idioma**: Interfaz en español, código en inglés, comentarios en español
+- **Idioma**: Interfaz en español e inglés (bilingüe completo, routing por locale). Código en inglés, comentarios en español.
 - **Tipado**: TypeScript strict en todo el frontend; Python type hints en backend
 - **Estilos**: Tailwind CSS con clases de utilidad; CSS variables para theming
 - **Iconos**: Heroicons v2 (outline para navegación, solid para acentos)
@@ -44,9 +44,9 @@ Incluye múltiples proyectos reales (TFG "La Nueva Era", futuros proyectos Node.
 - **Neon DATABASE_URL**: siempre termina con `&options=-csearch_path%3Dtfg` (schema del proyecto). Cambiar el schema = cambiar la DB.
 - **Neon pooled vs direct**: usa pooled connection en web services (serverless), direct solo en migraciones/scripts.
 - **Upstash REDIS_URL**: formato `redis://default:TOKEN@ENDPOINT:6379`. REST URL es para APIs HTTP, no para clientes Redis.
-- **CORS_ORIGINS**: lista separada por comas con los dominios exactos (sin barra final). En producción: `https://portfolio-edu444477.vercel.app`.
+- **CORS_ORIGINS**: lista separada por comas con los dominios exactos (sin barra final). En producción: `https://portfolio-delta-eight-yx2zi6pmny.vercel.app`.
 - **Render cold start**: 15 min de inactividad → sleep. El healthcheck `/api/health` mantiene el servicio despierto si se llama cada <10 min.
-- **Vercel Root Directory**: en Vercel el root directory es `portfolio-frontend`, NO la raíz del repo.
+- **Vercel Root Directory**: en Vercel el root directory es `/` (raíz del repo). El `vercel.json` de la raíz configura el build del monorepo.
 - **Render Root Directory**: para la API Flask es `la_nueva_era`, build command `pip install -r requirements.txt`.
 - **Content Collections schema**: si añades un campo al schema en `content/config.ts`, TODOS los archivos MDX deben incluirlo o el build falla.
 - **Tema oscuro**: usa clase `dark` en `<html>`, NO media queries. Tailwind `darkMode: 'class'`.

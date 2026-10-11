@@ -6,5 +6,6 @@
   "icon": "flask",
   "color": "#000000",
   "description": "RESTful, JWT, SQLAlchemy, Migrate, testing, Blueprints",
-  "link": "https://flask.palletsprojects.com"
+  "link": "https://flask.palletsprojects.com",
+  "source": "tfg"
 }

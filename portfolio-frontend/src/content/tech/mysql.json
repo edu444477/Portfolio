@@ -6,5 +6,6 @@
   "icon": "mysql",
   "color": "#4479A1",
   "description": "InnoDB, replicación, optimización consultas, migraciones",
-  "link": "https://mysql.com"
+  "link": "https://mysql.com",
+  "source": "cv"
 }

@@ -6,5 +6,6 @@
   "icon": "github",
   "color": "#2088FF",
   "description": "Workflows, matrices, caching, deployments, security scanning",
-  "link": "https://github.com/features/actions"
+  "link": "https://github.com/features/actions",
+  "source": "tfg"
 }
