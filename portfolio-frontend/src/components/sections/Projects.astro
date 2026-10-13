@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { ExternalLinkIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ArrowTopRightOnSquareIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, Badge, Tag } from '@/components/ui';
 import type { ProjectEntry } from '@/content/config';
 
@@ -68,13 +68,13 @@ const otherProjects = projects.filter((p) => !p.data.featured).sort((a, b) => ne
                       <div className="flex items-center gap-2">
                         {data.repoUrl && (
                           <a href={data.repoUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-dark-500 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1">
-                            <ExternalLinkIcon className="w-4 h-4" aria-hidden="true" />
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4" aria-hidden="true" />
                             Código
                           </a>
                         )}
                         {data.liveUrl && (
                           <a href={data.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-dark-500 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1">
-                            <ExternalLinkIcon className="w-4 h-4" aria-hidden="true" />
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4" aria-hidden="true" />
                             Demo
                           </a>
                         )}

@@ -1,4 +1,4 @@
-import { ArrowDownTrayIcon, ComputerDesktopIcon, CodeBracketIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon, ComputerDesktopIcon, CodeBracketIcon, SparklesIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 
 interface HeroProps {
@@ -11,7 +11,7 @@ interface HeroProps {
   secondaryCtaHref?: string;
 }
 
-export function Hero({ name, title, description, ctaText = 'Ver proyectos', ctaHref = '#proyectos', secondaryCtaText = 'Contactar', secondaryCtaHref = '#contacto' }: HeroProps) {
+export default function Hero({ name, title, description, ctaText = 'Ver proyectos', ctaHref = '#proyectos', secondaryCtaText = 'Contactar', secondaryCtaHref = '#contacto' }: HeroProps) {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden" aria-labelledby="hero-title">
       <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-dark-50 dark:from-dark-900 dark:via-dark-950 dark:to-dark-900" aria-hidden="true" />
@@ -60,7 +60,7 @@ export function Hero({ name, title, description, ctaText = 'Ver proyectos', ctaH
               )}
             >
               {secondaryCtaText}
-              <ExternalLinkIcon className="w-5 h-5" aria-hidden="true" />
+              <ArrowTopRightOnSquareIcon className="w-5 h-5" aria-hidden="true" />
             </a>
           </div>
         </div>

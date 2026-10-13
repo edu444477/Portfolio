@@ -1,25 +1,59 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 import { ThemeToggle } from '@/components/ui';
+import LanguageToggle from '@/components/ui/LanguageToggle';
+import { type Lang } from '@/lib/i18n';
 
 const navigation = [
-  { name: 'Inicio', href: '#inicio' },
-  { name: 'Experiencia', href: '#experiencia' },
-  { name: 'Proyectos', href: '#proyectos' },
-  { name: 'Tecnologías', href: '#tecnologias' },
-  { name: 'Contacto', href: '#contacto' },
+  { name: 'nav.inicio', href: 'inicio' },
+  { name: 'nav.experiencia', href: 'experiencia' },
+  { name: 'nav.proyectos', href: 'proyectos' },
+  { name: 'nav.tecnologias', href: 'tecnologias' },
+  { name: 'nav.contacto', href: 'contacto' },
 ];
 
-export function Header() {
+interface HeaderProps {
+  lang: 'es' | 'en';
+}
+
+export default function Header({ lang }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        lastFocusedRef.current?.focus();
+      }
+    };
+    if (mobileMenuOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (mobileMenuOpen && mobileMenuRef.current) {
+      lastFocusedRef.current = document.activeElement as HTMLElement;
+      mobileMenuRef.current.focus();
+    }
+  }, [mobileMenuOpen]);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const getLocalizedHref = (href: string) => `/${lang}/${href}`;
 
   return (
     <header
@@ -34,7 +68,7 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <a href="#inicio" className="flex items-center gap-2 text-xl font-bold text-dark-900 dark:text-dark-100" aria-label="Portfolio - Inicio">
+            <a href={getLocalizedHref('inicio')} className="flex items-center gap-2 text-xl font-bold text-dark-900 dark:text-dark-100" aria-label="Portfolio - Inicio">
               <svg className="w-8 h-8 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
                 <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 11V15l9-4.5v11l-9 4.5z"/>
               </svg>
@@ -43,23 +77,30 @@ export function Header() {
           </div>
 
           <div className="hidden md:flex md:items-center md:gap-8">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-medium text-dark-600 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-              >
-                {item.name}
-              </a>
-            ))}
+            <nav aria-label="Navegación principal">
+              <ul className="flex items-center gap-8">
+                {navigation.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={`/${lang}/${item.href}`}
+                      className="text-sm font-medium text-dark-600 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <LanguageToggle lang={lang} />
             <ThemeToggle />
           </div>
 
           <div className="flex md:hidden items-center gap-4">
+            <LanguageToggle lang={lang} />
             <ThemeToggle />
             <button
               type="button"
-              className="p-2 rounded-lg text-dark-600 dark:text-dark-400 hover:bg-dark-100 dark:hover:bg-dark-800"
+              className="p-2 rounded-lg text-dark-600 dark:text-dark-400 hover:bg-dark-100 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-dark-900"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
@@ -75,21 +116,32 @@ export function Header() {
         </div>
 
         {mobileMenuOpen && (
-          <div id="mobile-menu" className="md:hidden py-4 border-t border-dark-200 dark:border-dark-700 animate-slide-down">
-            <div className="flex flex-col gap-4">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="px-2 py-2 text-base font-medium text-dark-600 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 rounded-lg hover:bg-dark-100 dark:hover:bg-dark-800 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-              <div className="pt-2 flex justify-center">
-                <ThemeToggle />
-              </div>
+          <div
+            ref={mobileMenuRef}
+            id="mobile-menu"
+            className="md:hidden py-4 border-t border-dark-200 dark:border-dark-700 animate-slide-down"
+            role="navigation"
+            aria-label="Menú móvil"
+            tabIndex={-1}
+          >
+            <nav aria-label="Navegación móvil">
+              <ul className="flex flex-col gap-4">
+                {navigation.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={`/${lang}/${item.href}`}
+                      className="px-2 py-2 text-base font-medium text-dark-600 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 rounded-lg hover:bg-dark-100 dark:hover:bg-dark-800 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="pt-2 flex justify-center">
+              <LanguageToggle lang={lang} />
+              <ThemeToggle />
             </div>
           </div>
         )}

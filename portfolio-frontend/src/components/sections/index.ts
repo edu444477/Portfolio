@@ -1,5 +1,5 @@
-export { About } from './About';
-export { Experience } from './Experience';
-export { Projects } from './Projects';
-export { TechStack } from './TechStack';
-export { Contact } from './Contact';
+export { About } from './About.astro';
+export { Experience } from './Experience.astro';
+export { Projects } from './Projects.astro';
+export { TechStack } from './TechStack.astro';
+export { Contact } from './Contact.astro';

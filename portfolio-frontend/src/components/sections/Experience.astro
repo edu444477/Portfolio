@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { BriefcaseIcon, GraduationCapIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { BriefcaseIcon, AcademicCapIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import type { ExperienceEntry } from '@/content/config';
 
@@ -30,7 +30,7 @@ const experiences = await getCollection('experience');
             'part-time': BriefcaseIcon,
             'internship': BriefcaseIcon,
             'freelance': CodeBracketIcon,
-            'education': GraduationCapIcon,
+            'education': AcademicCapIcon,
             'project': CodeBracketIcon,
           };
           const TypeIcon = typeIcons[data.type];
