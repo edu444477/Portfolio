@@ -1,0 +1,8 @@
+---
+// Página raíz requerida por Astro i18n para redirigir al locale por defecto (/es)
+export const prerender = true;
+
+import { redirect } from 'astro:navigation';
+
+return redirect('/es/');
+---
