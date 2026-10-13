@@ -1,8 +1,14 @@
 ---
-// Página raíz requerida por Astro i18n para redirigir al locale por defecto (/es)
 export const prerender = true;
-
-import { redirect } from 'astro:navigation';
-
-return redirect('/es/');
 ---
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=/es/" />
+    <link rel="canonical" href="https://portfolio-delta-eight-yx2zi6pmny.vercel.app/es/" />
+  </head>
+  <body>
+    <p>Redirigiendo a <a href="/es/">/es/</a>...</p>
+  </body>
+</html>
