@@ -1,0 +1,51 @@
+---
+import { t, getAlternateUrls, type Lang } from '@/lib/i18n';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { SEO } from '@/components/layout/SEO';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  type?: 'website' | 'article';
+  lang: Lang;
+}
+
+const { title, description, image, url, type = 'website', lang } = Astro.props;
+const safeLang: Lang = (lang === 'es' || lang === 'en') ? lang : 'es';
+const canonicalUrl = url || Astro.url.href;
+const alternates = getAlternateUrls(Astro.url.pathname);
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <link rel="alternate" hreflang="es" href={alternates.es} />
+    <link rel="alternate" hreflang="en" href={alternates.en} />
+    <link rel="alternate" hreflang="x-default" href={alternates.xDefault} />
+
+    <SEO title={title} description={description} image={image} url={canonicalUrl} type={type} />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://portfolio-delta-eight-yx2zi6pmny.vercel.app" crossorigin />
+  </head>
+  <body class="font-sans antialiased text-dark-900 dark:text-dark-100 bg-white dark:bg-dark-950 min-h-screen flex flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-primary-600 text-white rounded-lg">
+      {t('skip.main', safeLang)}
+    </a>
+
+    <Header lang={safeLang} />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer lang={safeLang} />
+  </body>
+</html>

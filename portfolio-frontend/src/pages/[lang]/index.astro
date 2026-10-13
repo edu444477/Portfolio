@@ -1,0 +1,51 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Hero from '@/components/layout/Hero';
+import About from '@/components/sections/About.astro';
+import Experience from '@/components/sections/Experience.astro';
+import Projects from '@/components/sections/Projects.astro';
+import TechStack from '@/components/sections/TechStack.astro';
+import Contact from '@/components/sections/Contact.astro';
+import { IDENTITY } from '@/lib/constants';
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.props;
+
+const title = IDENTITY.name;
+const description = IDENTITY.bio;
+---
+
+<Layout title={title} description={description} lang={lang}>
+  <Hero
+    name={IDENTITY.name}
+    title={IDENTITY.role}
+    description={IDENTITY.bio}
+    ctaText="Ver proyectos"
+    ctaHref="/proyectos"
+    secondaryCtaText="Contactar"
+    secondaryCtaHref="/contacto"
+  />
+  <About
+    name={IDENTITY.name}
+    title={IDENTITY.role}
+    bio={IDENTITY.bio}
+    location={IDENTITY.location}
+    email={IDENTITY.email}
+    availability={IDENTITY.availability}
+    skills={IDENTITY.skills}
+  />
+  <Experience />
+  <Projects />
+  <TechStack />
+  <Contact />
+</Layout>
+
+<script>
+  // ThemeToggle y LanguageToggle se hidratan automáticamente vía client:visible
+</script>
