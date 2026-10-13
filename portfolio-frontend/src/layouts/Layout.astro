@@ -3,6 +3,7 @@ import { t, getAlternateUrls, type Lang } from '@/lib/i18n';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SEO } from '@/components/layout/SEO';
+import ThemeProvider from '@/components/layout/ThemeProvider';
 
 interface Props {
   title: string;
@@ -40,12 +41,12 @@ const alternates = getAlternateUrls(Astro.url.pathname);
       {t('skip.main', safeLang)}
     </a>
 
-    <Header lang={safeLang} />
-
-    <main id="main" class="flex-1">
-      <slot />
-    </main>
-
-    <Footer lang={safeLang} />
+    <ThemeProvider client:visible>
+      <Header lang={safeLang} />
+      <main id="main" class="flex-1">
+        <slot />
+      </main>
+      <Footer lang={safeLang} />
+    </ThemeProvider>
   </body>
 </html>

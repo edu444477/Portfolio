@@ -10,7 +10,7 @@ Tareas derivadas de `plan.md`. Orden de dependencia, cada una ≤ 30 min, build 
 - [x] **T2. Layout + Header + Footer (estructura + navegación + selector idioma).** RF-3, RF-4, RF-5, RF-6, RF-8, RFN-3, RFN-4, RFN-8, RFN-11
   - Hecho cuando: `npm run build` verde; header fijo con logo, nav, LanguageToggle, ThemeToggle; `< 768px` menú hamburguesa abre/cierra con click y Escape; anclas desplazan con scroll suave + 80px offset; footer con enlaces, email, LanguageToggle, enlace privacidad; skip link "Saltar al contenido" como primer focusable; foco visible en todos los interactivos; `<html lang>` correcto.
 
-- [ ] **T3. ThemeProvider + ThemeToggle (React island).** RF-28, RF-29, RF-30, RFN-2, RFN-11
+- [x] **T3. ThemeProvider + ThemeToggle (React island).** RF-28, RF-29, RF-30, RFN-2, RFN-11
   - Hecho cuando: `npm run build` verde; toggle alterna tema claro/oscuro; preferencia persiste en localStorage; default = `prefers-color-scheme`; `aria-label` bilingüe (ES/EN) en ThemeToggle; clase `dark` en `<html>` alterna; sin FOUC al cargar.
 
 - [ ] **T4. LanguageToggle (React island).** RF-8, RFN-2
