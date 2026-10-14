@@ -16,7 +16,7 @@ Tareas derivadas de `plan.md`. Orden de dependencia, cada una ≤ 30 min, build 
 - [ ] **T4. LanguageToggle (React island).** RF-8, RFN-2
   - Hecho cuando: `npm run build` verde; botón ES/EN en header y footer; click navega a URL con locale opuesto (recarga); `aria-label` bilingüe; texto del botón cambia según locale actual.
 
-- [ ] **T5. i18n diccionarios + constants.ts (identidad, contacto, enlaces).** RF-2, RFN-2
+- [x] **T5. i18n diccionarios + constants.ts (identidad, contacto, enlaces).** RF-2, RFN-2
   - Hecho cuando: `npm run build` verde; `src/lib/i18n.ts` exporta `dicts.es`, `dicts.en`, `t(key, lang)`, `getSlug(key, lang)`; `src/lib/constants.ts` exporta `IDENTITY` (nombre, rol, bio, ubicación, teléfono, email, GitHub, LinkedIn, disponibilidad); claves cubren: hero, about, experience, projects, tech, contact, nav, footer, theme, form, errors, success.
 
 - [ ] **T6. Hero + About (secciones home).** RF-1, RF-2
