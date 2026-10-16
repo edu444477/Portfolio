@@ -16,6 +16,9 @@ interface Props {
 
 const { lang } = Astro.props;
 
+// Se resuelve aquí porque import.meta.env no se sustituye dentro de <script>.
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+
 const privacyHref = localizePath('/privacidad', lang);
 ---
 
@@ -171,10 +174,19 @@ const privacyHref = localizePath('/privacidad', lang);
   </div>
 </section>
 
-<script define:vars={{ lang, email: IDENTITY.email }}>
+<script define:vars={{ lang, email: IDENTITY.email, accessKey: web3formsKey }}>
   const form = document.getElementById('contact-form');
   const status = document.getElementById('cf-status');
   const submitBtn = form.querySelector('button[type="submit"]');
+
+  // Web3Forms exige que la llamada salga del navegador: su anti-spam bloquea
+  // las peticiones que llegan desde un servidor (403 "method not allowed").
+  // Por eso la clave va en el cliente, pública por diseño del servicio.
+  //
+  // OJO: import.meta.env NO se reemplaza dentro de <script define:vars>, hay
+  // que resolverlo en el frontmatter y pasarlo como variable.
+  const ACCESS_KEY = accessKey;
+  const ENDPOINT = 'https://api.web3forms.com/submit';
 
   const COPY = {
     es: {
@@ -244,20 +256,34 @@ const privacyHref = localizePath('/privacidad', lang);
     submitBtn.disabled = true;
     submitBtn.textContent = copy.sending;
 
+    if (!ACCESS_KEY) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = copy.sendLabel || submitBtn.textContent;
+      status.textContent = `${copy.error} ${email}.`;
+      status.className = 'min-h-[1.5rem] text-sm text-red-600 dark:text-red-400';
+      return;
+    }
+
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
+          access_key: ACCESS_KEY,
           name: form.elements.name.value.trim(),
           email: form.elements.email.value.trim(),
           subject: form.elements.subject.value.trim(),
           message: form.elements.message.value.trim(),
-          website: form.elements.website.value,
+          from_name: 'Portfolio Web',
+          // Honeypot: si viene relleno, Web3Forms lo descarta.
+          botcheck: form.elements.website.value,
         }),
       });
 
-      if (!response.ok) throw new Error(String(response.status));
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || String(response.status));
+      }
 
       // RF-23
       status.textContent = copy.success;
