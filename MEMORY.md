@@ -7,7 +7,8 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Spec 001 (Portfolio bilingüe)**: T1-T15 COMPLETADAS. La web está terminada: home, 2 proyectos con detalle, privacidad, 404, todo en ES/EN.
 - **Frontend (portfolio-frontend/)**: `npm run build` y `npm run lint` limpios. Consola del navegador sin errores ni 404. Verificado en Chrome a 375/768/1440px, light y dark.
 - **Tema**: store único en `src/lib/theme.ts` (localStorage + prefers-color-scheme) leído con `useSyncExternalStore`. `ThemeProvider.tsx` exporta el hook `useTheme()`; ya no es un Provider de contexto.
-- **PENDIENTE: renombrar la variable de Vercel a `PUBLIC_WEB3FORMS_KEY`** (ahora se llama `WEB3FORMS_KEY`) y redeployar. Es lo único que impide que el formulario funcione. Ver `docs/deployment.md`.
+- **Formulario de contacto: FUNCIONANDO en producción.** Variable `PUBLIC_WEB3FORMS_KEY` (tipo Config) en Vercel, Production. Verificado con Chrome DevTools: HTTP 200, mensaje de exito y form reset. Dos correos de prueba deberian haber llegado a la bandeja.
+- [ ] **Borrar la variable antigua `WEB3FORMS_KEY` de Vercel** (ya no se usa; sin prefijo `PUBLIC_` nunca llega al cliente)
 - **Web3Forms NO admite proxy serverless**: su anti-spam devuelve 403 con el desafío de Cloudflare si la llamada no sale de un navegador. Su documentación: "Do not proxy it in another API or server side code". Por eso el envío es directo desde el cliente y la clave es pública por diseño, que es justo lo que RFN-7 ya permitía.
 - **TFG (la_nueva_era/)**: desplegado y funcionando en `https://la-nueva-era-api.onrender.com`. `/api/health` = 200. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app:app"`. Falta migrar datos MySQL → Neon y servir el build de React.
 - **Neon**: proyecto `rough-bar-22432276`, schemas `tfg`, `node_api`, `portfolio`. Usuario `tfg_user` con password en DB (⚠️ mover a variable de entorno).
@@ -50,6 +51,7 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 
 - [ ] **Definir `WEB3FORMS_KEY` en Vercel** para que el formulario de contacto funcione de verdad
 - [ ] **Desplegar y verificar en producción** (`https://portfolio-delta-eight-yx2zi6pmny.vercel.app`): comprobar que las páginas prerenderizadas se sirven y que la función `/api/contact` responde
+- [ ] Verificar si llegaron los correos de prueba del formulario a la bandeja
 - [ ] Arreglar los barrels `src/components/*/index.ts`: exportan `{ Header }` de un módulo con `export default` → error TS. Usar default export o `export { default as X }`
 - [ ] Traducir el contenido de los proyectos yempleos a EN (ahora el interfaz está en ambos idiomas pero el texto largo de Content Collections solo existe en ES)
 - **Contenido bilingüe**: carpetas por idioma, `<coleccion>/localized-es/<slug>.mdx` y `localized-en/<slug>.mdx` con el mismo nombre. `src/lib/content.ts` resuelve por idioma y cae al español si falta traducción. El schema Zod no cambia.
