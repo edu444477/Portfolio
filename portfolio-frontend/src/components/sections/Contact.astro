@@ -152,6 +152,7 @@ const privacyHref = localizePath('/privacidad', lang);
 
           <button
             type="submit"
+            data-label-idle={t('contact.form.submit', lang)}
             data-label-sending={t('contact.form.submitting', lang)}
             class="w-full rounded-lg bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-dark-900"
           >
@@ -195,7 +196,7 @@ const privacyHref = localizePath('/privacidad', lang);
       sending: 'Enviando...',
       success: '¡Mensaje enviado! Te responderé en 24-48h laborables.',
       error: 'No he podido enviar el mensaje. Inténtalo de nuevo o escríbeme directamente a',
-      sendingLabel: submitBtn.dataset.labelSending,
+      idleLabel: submitBtn.dataset.labelIdle,
     },
     en: {
       required: 'This field is required',
@@ -203,7 +204,7 @@ const privacyHref = localizePath('/privacidad', lang);
       sending: 'Sending...',
       success: 'Message sent! I will reply within 24-48 business hours.',
       error: 'I could not send the message. Try again or email me directly at',
-      sendingLabel: submitBtn.dataset.labelSending,
+      idleLabel: submitBtn.dataset.labelIdle,
     },
   };
   const copy = COPY[lang] || COPY.es;
@@ -258,7 +259,7 @@ const privacyHref = localizePath('/privacidad', lang);
 
     if (!ACCESS_KEY) {
       submitBtn.disabled = false;
-      submitBtn.textContent = copy.sendLabel || submitBtn.textContent;
+      submitBtn.textContent = copy.idleLabel || submitBtn.textContent;
       status.textContent = `${copy.error} ${email}.`;
       status.className = 'min-h-[1.5rem] text-sm text-red-600 dark:text-red-400';
       return;
@@ -295,7 +296,7 @@ const privacyHref = localizePath('/privacidad', lang);
       status.className = 'min-h-[1.5rem] text-sm text-red-600 dark:text-red-400';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = copy.sendLabel || submitBtn.textContent;
+      submitBtn.textContent = copy.idleLabel || submitBtn.textContent;
     }
   });
 </script>
