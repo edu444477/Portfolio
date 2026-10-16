@@ -7,7 +7,8 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Spec 001 (Portfolio bilingüe)**: T1-T15 COMPLETADAS. La web está terminada: home, 2 proyectos con detalle, privacidad, 404, todo en ES/EN.
 - **Frontend (portfolio-frontend/)**: `npm run build` y `npm run lint` limpios. Consola del navegador sin errores ni 404. Verificado en Chrome a 375/768/1440px, light y dark.
 - **Tema**: store único en `src/lib/theme.ts` (localStorage + prefers-color-scheme) leído con `useSyncExternalStore`. `ThemeProvider.tsx` exporta el hook `useTheme()`; ya no es un Provider de contexto.
-- **PENDIENTE: definir `WEB3FORMS_KEY` en las variables de entorno de Vercel.** Es lo único que impide que el formulario de contacto funcione. Ver `docs/deployment.md`.
+- **PENDIENTE: renombrar la variable de Vercel a `PUBLIC_WEB3FORMS_KEY`** (ahora se llama `WEB3FORMS_KEY`) y redeployar. Es lo único que impide que el formulario funcione. Ver `docs/deployment.md`.
+- **Web3Forms NO admite proxy serverless**: su anti-spam devuelve 403 con el desafío de Cloudflare si la llamada no sale de un navegador. Su documentación: "Do not proxy it in another API or server side code". Por eso el envío es directo desde el cliente y la clave es pública por diseño, que es justo lo que RFN-7 ya permitía.
 - **TFG (la_nueva_era/)**: desplegado y funcionando en `https://la-nueva-era-api.onrender.com`. `/api/health` = 200. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app:app"`. Falta migrar datos MySQL → Neon y servir el build de React.
 - **Neon**: proyecto `rough-bar-22432276`, schemas `tfg`, `node_api`, `portfolio`. Usuario `tfg_user` con password en DB (⚠️ mover a variable de entorno).
 - **Upstash**: DB `natural-rattler-221300`. Sin conectar (blacklist JWT + rate limiting pendientes).
@@ -40,7 +41,9 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Los islands de Astro se renderizan FUERA del árbol de React.** Un `<ContextProvider client:load>` en el Layout no alcanza a `Header`/`Footer`: Astro los serializa aparte y salta con "must be used within a ThemeProvider". Para estado compartido entre islands usar un store exterior (como `src/lib/theme.ts`), no contexto.
 - **Para leer localStorage en React sin hydration mismatch**: `useSyncExternalStore`, no `useState` + `useEffect` con `setMounted(true)`. La regla `react-hooks/set-state-in-effect` de plugin v7 lo marca como error.
 - **ESLint 9 = flat config**: `eslint.config.mjs`, y `--ext` ya no existe (el script es `eslint .`). `eslint-plugin-astro@3.x` exige ESLint ≥10 → con ESLint 9 fijar `eslint-plugin-astro@1.3.1`. Añadir `.vercel/**` a `ignores`, si no lint escanea 1000+ errores del build.
-- **Con `output: 'server'` hace falta un adapter** (`@astrojs/vercel@8.0.0` para Astro 5; la v11 exige Astro 7) y va en `adapter:`, NO dentro de `integrations: []`. El build pasa a generar `dist/client` + `.vercel/output`, y `astro preview` ya no sirve: usar `http-server dist/client`.
+- **Con `output: 'server'` hace falta un adapter** y va en `adapter:`, NO dentro de `integrations: []`. Vercel ya no soporta `nodejs18.x`, que es lo que emite `@astrojs/vercel@8.0.0` → build fallido y Vercel mantiene el despliegue viejo. La v9.0.0 ya emite `nodejs22.x` y sigue soportando Astro 5. **No añadir `functions` a `vercel.json`**: es sintaxis legacy y da `[invalid_function_runtime]`.
+- **`import.meta.env` NO se sustituye dentro de `<script define:vars>`** de Astro: hay que resolverlo en el frontmatter y pasarlo como variable (`define:vars={{ key: valor }}`).
+- **Si quitas todo el frontmatter de un `.astro`, quita también el `---` de apertura.** Un frontmatter sin cerrar hace que Astro lea el resto del fichero como código y falle con "Unexpected !".
 - `tsc --noEmit` directo no entiende ficheros `.astro`: da falsos errores. Para tipos reales usar `astro check`.
 
 ## Próximos pasos
