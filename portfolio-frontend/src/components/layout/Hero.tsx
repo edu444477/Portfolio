@@ -1,17 +1,20 @@
 import { ArrowDownTrayIcon, ComputerDesktopIcon, CodeBracketIcon, SparklesIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
+import { t, type Lang } from '@/lib/i18n';
 
 interface HeroProps {
   name: string;
   title: string;
   description: string;
   ctaText?: string;
-  ctaHref?: string;
-  secondaryCtaText?: string;
-  secondaryCtaHref?: string;
+  ctaHref: string;
+  secondaryCtaHref: string;
+  lang: Lang;
 }
 
-export default function Hero({ name, title, description, ctaText = 'Ver proyectos', ctaHref = '#proyectos', secondaryCtaText = 'Contactar', secondaryCtaHref = '#contacto' }: HeroProps) {
+export default function Hero({ name, title, description, ctaHref, secondaryCtaHref, lang }: HeroProps) {
+  const tLang = (key: string) => t(key, lang);
+
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden" aria-labelledby="hero-title">
       <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-dark-50 dark:from-dark-900 dark:via-dark-950 dark:to-dark-900" aria-hidden="true" />
@@ -21,11 +24,11 @@ export default function Hero({ name, title, description, ctaText = 'Ver proyecto
         <div className="text-center max-w-3xl mx-auto animate-fade-in">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium mb-6 animate-slide-up">
             <SparklesIcon className="w-4 h-4" aria-hidden="true" />
-            <span>Desarrollador Full Stack</span>
+            <span>{tLang('hero.role')}</span>
           </div>
 
           <h1 id="hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark-900 dark:text-dark-100 mb-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
-            Hola, soy <span className="text-primary-600 dark:text-primary-400">{name}</span>
+            {tLang('hero.title')} <span className="text-primary-600 dark:text-primary-400">{name}</span>
           </h1>
 
           <h2 className="text-xl sm:text-2xl lg:text-3xl text-dark-600 dark:text-dark-300 mb-6 font-medium animate-slide-up" style={{ animationDelay: '200ms' }}>
@@ -46,7 +49,7 @@ export default function Hero({ name, title, description, ctaText = 'Ver proyecto
                 'transition-all duration-200 shadow-lg shadow-primary-500/25'
               )}
             >
-              {ctaText}
+              {tLang('hero.cta.projects')}
               <ArrowDownTrayIcon className="w-5 h-5" aria-hidden="true" />
             </a>
             <a
@@ -59,7 +62,7 @@ export default function Hero({ name, title, description, ctaText = 'Ver proyecto
                 'transition-all duration-200'
               )}
             >
-              {secondaryCtaText}
+              {tLang('hero.cta.contact')}
               <ArrowTopRightOnSquareIcon className="w-5 h-5" aria-hidden="true" />
             </a>
           </div>
@@ -70,22 +73,22 @@ export default function Hero({ name, title, description, ctaText = 'Ver proyecto
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-4 mx-auto">
               <CodeBracketIcon className="w-7 h-7" aria-hidden="true" />
             </div>
-            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-2">Código Limpio</h3>
-            <p className="text-dark-600 dark:text-dark-400 text-sm">Arquitectura mantenible, tipado estricto y pruebas automatizadas</p>
+            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-2">{tLang('hero.feature.cleanCode')}</h3>
+            <p className="text-dark-600 dark:text-dark-400 text-sm">{tLang('hero.feature.cleanCodeDesc')}</p>
           </div>
           <div className="text-center p-6 rounded-xl bg-white/50 dark:bg-dark-800/50 backdrop-blur-sm border border-dark-200 dark:border-dark-700">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-4 mx-auto">
               <ComputerDesktopIcon className="w-7 h-7" aria-hidden="true" />
             </div>
-            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-2">Rendimiento</h3>
-            <p className="text-dark-600 dark:text-dark-400 text-sm">Lighthouse 100/100, Core Web Vitals optimizados, carga instantánea</p>
+            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-2">{tLang('hero.feature.performance')}</h3>
+            <p className="text-dark-600 dark:text-dark-400 text-sm">{tLang('hero.feature.performanceDesc')}</p>
           </div>
           <div className="text-center p-6 rounded-xl bg-white/50 dark:bg-dark-800/50 backdrop-blur-sm border border-dark-200 dark:border-dark-700">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-4 mx-auto">
               <SparklesIcon className="w-7 h-7" aria-hidden="true" />
             </div>
-            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-2">Accesibilidad</h3>
-            <p className="text-dark-600 dark:text-dark-400 text-sm">WCAG 2.1 AA, semántica HTML, navegación por teclado, screen readers</p>
+            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-2">{tLang('hero.feature.accessibility')}</h3>
+            <p className="text-dark-600 dark:text-dark-400 text-sm">{tLang('hero.feature.accessibilityDesc')}</p>
           </div>
         </div>
       </div>
@@ -93,7 +96,7 @@ export default function Hero({ name, title, description, ctaText = 'Ver proyecto
       <a
         href="#experiencia"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
-        aria-label="Desplazarse a experiencia"
+        aria-label={tLang('hero.scrollToExperience')}
       >
         <ArrowDownTrayIcon className="w-6 h-6 text-dark-400 dark:text-dark-600" aria-hidden="true" />
       </a>

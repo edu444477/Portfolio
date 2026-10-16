@@ -6,7 +6,8 @@ import Experience from '@/components/sections/Experience.astro';
 import Projects from '@/components/sections/Projects.astro';
 import TechStack from '@/components/sections/TechStack.astro';
 import Contact from '@/components/sections/Contact.astro';
-import { IDENTITY } from '@/lib/constants';
+import { IDENTITY, localize } from '@/lib/constants';
+import type { Lang } from '@/lib/i18n';
 
 export async function getStaticPaths() {
   return [
@@ -15,30 +16,33 @@ export async function getStaticPaths() {
   ];
 }
 
-const { lang } = Astro.props;
+// Los params de ruta NO llegan por Astro.props: leerlos de Astro.params.
+const lang: Lang = Astro.params.lang === 'en' ? 'en' : 'es';
 
-const title = IDENTITY.name;
-const description = IDENTITY.bio;
+const role = localize(IDENTITY.role, lang);
+const bio = localize(IDENTITY.bio, lang);
+const title = `${IDENTITY.name} — ${role}`;
+const description = bio;
 ---
 
 <Layout title={title} description={description} lang={lang}>
   <Hero
     name={IDENTITY.name}
-    title={IDENTITY.role}
-    description={IDENTITY.bio}
-    ctaText="Ver proyectos"
-    ctaHref="/proyectos"
-    secondaryCtaText="Contactar"
-    secondaryCtaHref="/contacto"
+    title={role}
+    description={bio}
+    ctaHref="#proyectos"
+    secondaryCtaHref="#contacto"
+    lang={lang}
   />
   <About
     name={IDENTITY.name}
-    title={IDENTITY.role}
-    bio={IDENTITY.bio}
-    location={IDENTITY.location}
+    title={role}
+    story={IDENTITY.story[lang]}
+    location={localize(IDENTITY.location, lang)}
     email={IDENTITY.email}
-    availability={IDENTITY.availability}
+    availability={localize(IDENTITY.availability, lang)}
     skills={IDENTITY.skills}
+    lang={lang}
   />
   <Experience />
   <Projects />

@@ -19,7 +19,7 @@ Tareas derivadas de `plan.md`. Orden de dependencia, cada una ≤ 30 min, build 
 - [x] **T5. i18n diccionarios + constants.ts (identidad, contacto, enlaces).** RF-2, RFN-2
   - Hecho cuando: `npm run build` verde; `src/lib/i18n.ts` exporta `dicts.es`, `dicts.en`, `t(key, lang)`, `getSlug(key, lang)`; `src/lib/constants.ts` exporta `IDENTITY` (nombre, rol, bio, ubicación, teléfono, email, GitHub, LinkedIn, disponibilidad); claves cubren: hero, about, experience, projects, tech, contact, nav, footer, theme, form, errors, success.
 
-- [ ] **T6. Hero + About (secciones home).** RF-1, RF-2
+- [x] **T6. Hero + About (secciones home).** RF-1, RF-2
   - Hecho cuando: `npm run build` verde; Hero muestra nombre, rol, bio, 2 CTAs (proyectos + contacto); About muestra "Mi historia" + perfil (nombre, rol, ubicación, disponibilidad, email) + skills destacados; textos via `constants.ts` + `i18n`; sin cadenas hardcodeadas.
 
 - [ ] **T7. Experience + Education (timeline).** RF-18, RF-19
@@ -68,13 +68,12 @@ Cada tarea:
 
 ## Estado
 
-- [ ] T1
-- [ ] T2
-- [ ] T3
+- [x] T1
+- [x] T2
+- [x] T3
 - [ ] T4
-- [ ] T5
-- [ ] T6
-- [ ] T6
+- [x] T5
+- [x] T6
 - [ ] T7
 - [ ] T8
 - [ ] T9

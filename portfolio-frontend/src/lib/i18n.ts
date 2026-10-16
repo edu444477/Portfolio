@@ -22,8 +22,16 @@ export const dicts: Record<Lang, Dict> = {
     'hero.description': 'Desarrollador Full Stack con más de 2 años de experiencia en el desarrollo de aplicaciones web y móviles para entornos empresariales. Especializado en React, React Native y Ruby on Rails, con experiencia en el diseño de APIs REST, desarrollo de interfaces modernas, aplicaciones multiplataforma y soluciones basadas en inteligencia artificial. Destaco por mi rápida adaptación a nuevos contextos técnicos, el aprendizaje continuo, la resolución de problemas y el compromiso con la calidad del software.',
     'hero.cta.projects': 'Ver proyectos',
     'hero.cta.contact': 'Contactar',
+    'hero.feature.cleanCode': 'Código Limpio',
+    'hero.feature.cleanCodeDesc': 'Arquitectura mantenible, tipado estricto y pruebas automatizadas',
+    'hero.feature.performance': 'Rendimiento',
+    'hero.feature.performanceDesc': 'Lighthouse 100/100, Core Web Vitals optimizados, carga instantánea',
+    'hero.feature.accessibility': 'Accesibilidad',
+    'hero.feature.accessibilityDesc': 'WCAG 2.1 AA, semántica HTML, navegación por teclado, screen readers',
+    'hero.scrollToExperience': 'Desplazarse a experiencia',
 
     // About
+    'about.title': 'Sobre mí',
     'about.myStory': 'Mi historia',
     'about.profile': 'Perfil',
     'about.name': 'Nombre',
@@ -142,8 +150,16 @@ export const dicts: Record<Lang, Dict> = {
     'hero.description': 'Full Stack Developer with over 2 years of experience building web and mobile applications for enterprise environments. Specialized in React, React Native, and Ruby on Rails, with experience designing REST APIs, developing modern interfaces, cross-platform applications, and AI-based solutions. I stand out for my quick adaptation to new technical contexts, continuous learning, problem solving, and commitment to software quality.',
     'hero.cta.projects': 'View projects',
     'hero.cta.contact': 'Contact',
+    'hero.feature.cleanCode': 'Clean Code',
+    'hero.feature.cleanCodeDesc': 'Maintainable architecture, strict typing, and automated testing',
+    'hero.feature.performance': 'Performance',
+    'hero.feature.performanceDesc': 'Lighthouse 100/100, Core Web Vitals optimized, instant loading',
+    'hero.feature.accessibility': 'Accessibility',
+    'hero.feature.accessibilityDesc': 'WCAG 2.1 AA, semantic HTML, keyboard navigation, screen readers',
+    'hero.scrollToExperience': 'Scroll to experience',
 
     // About
+    'about.title': 'About me',
     'about.myStory': 'My story',
     'about.profile': 'Profile',
     'about.name': 'Name',
@@ -251,7 +267,8 @@ export const dicts: Record<Lang, Dict> = {
 };
 
 export function t(key: string, lang: Lang, params?: Record<string, string>): string {
-  let str = dicts[lang][key] || dicts.es[key] || key;
+  const dict = dicts[lang] ?? dicts.es;
+  let str = dict[key] || dicts.es[key] || key;
   if (params) {
     Object.entries(params).forEach(([k, v]) => {
       str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
