@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Variables de theming (RFN-1, RFN-11).
+ * El tema oscuro se activa con la clase `dark` en <html>, nunca con
+ * media queries dentro del CSS.
+ */
+@layer base {
+  :root {
+    --skip-bg: #0284c7;
+    --skip-fg: #ffffff;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply font-sans antialiased text-dark-900 dark:text-dark-100 bg-white dark:bg-dark-950;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Foco visible y consistente en TODO el sitio. Quitar el outline por
+     defecto solo aquí, donde se repone con un anillo visible. */
+  :focus-visible {
+    outline: 2px solid theme('colors.primary.500');
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .dark :focus-visible {
+    outline-color: theme('colors.primary.400');
+  }
+
+  /* Skip link: oculto hasta recibir foco (RFN-4). */
+  .skip-link {
+    @apply sr-only;
+  }
+
+  .skip-link:focus {
+    @apply not-sr-only fixed top-4 left-4 z-[100] px-4 py-2 rounded-lg font-medium;
+    background: var(--skip-bg);
+    color: var(--skip-fg);
+  }
+}
+
+@layer components {
+  /* Contenedor de sección, consistente en toda la web. */
+  .section {
+    @apply py-20 sm:py-28 px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-container {
+    @apply mx-auto max-w-7xl;
+  }
+
+  .section-title {
+    @apply text-3xl sm:text-4xl font-bold text-dark-900 dark:text-dark-100 mb-4;
+  }
+
+  .section-lead {
+    @apply text-lg text-dark-600 dark:text-dark-400;
+  }
+}
+
+@layer utilities {
+  /* RFN-3: margen para que el header fijo no tape el inicio de la sección. */
+  .scroll-mt-header {
+    scroll-margin-top: 80px;
+  }
+}
+
+/**
+ * RFN-5: el usuario que lo pide así no quiere animaciones.
+ * Se desactivan aquí y no en cada componente.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Impresión: nada de navegación ni llamadas a la acción. */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+}

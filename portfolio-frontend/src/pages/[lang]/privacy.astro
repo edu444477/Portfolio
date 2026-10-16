@@ -1,0 +1,62 @@
+---
+/**
+ * Política de privacidad (RF-31).
+ * Contenido declarativo en i18n, sin cadenas hardcodeadas.
+ */
+import Layout from '@/layouts/Layout.astro';
+import { t, localizePath, type Lang } from '@/lib/i18n';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+
+const lang: Lang = Astro.params.lang === 'en' ? 'en' : 'es';
+
+const SECTIONS = [
+  { key: 'dataController', title: 'privacy.dataController' },
+  { key: 'purpose', title: 'privacy.purpose' },
+  { key: 'legalBasis', title: 'privacy.legalBasis' },
+  { key: 'recipients', title: 'privacy.recipients' },
+  { key: 'web3forms', title: 'privacy.web3forms' },
+  { key: 'rights', title: 'privacy.rights' },
+  { key: 'retention', title: 'privacy.retention' },
+  { key: 'updates', title: 'privacy.updates' },
+] as const;
+
+const backHref = localizePath('/', lang);
+---
+
+<Layout title={t('privacy.title', lang)} description={t('privacy.intro', lang)} lang={lang}>
+  <article class="section scroll-mt-header">
+    <div class="section-container max-w-3xl">
+      <header class="mb-10">
+        <h1 class="text-4xl font-bold text-dark-900 dark:text-dark-100">
+          {t('privacy.title', lang)}
+        </h1>
+        <p class="mt-4 text-lg text-dark-600 dark:text-dark-400">{t('privacy.intro', lang)}</p>
+      </header>
+
+      {
+        SECTIONS.map((section) => (
+          <section class="mb-8">
+            <h2 class="mb-2 text-xl font-bold text-dark-900 dark:text-dark-100">
+              {t(section.title, lang)}
+            </h2>
+            <p class="leading-relaxed text-dark-600 dark:text-dark-400">
+              {t(`privacy.${section.key}Value`, lang)}
+            </p>
+          </section>
+        ))
+      }
+
+      <a
+        href={backHref}
+        class="mt-10 inline-flex items-center gap-2 text-sm font-medium text-primary-700 transition-colors hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+      >
+        {t('privacy.back', lang)}
+      </a>
+    </div>
+  </article>
+</Layout>

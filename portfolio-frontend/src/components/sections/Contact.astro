@@ -1,135 +1,275 @@
 ---
-import { EnvelopeIcon, MapPinIcon, ClockIcon } from '@heroicons/react/24/outline';
-import { GithubIcon, LinkedInIcon } from '@/components/ui/BrandIcons';
-import { Card, CardContent, Input, Textarea, Button } from '@/components/ui';
+/**
+ * Sección de contacto (RF-23 a RF-27, RFN-2).
+ *
+ * El email se muestra siempre en texto plano (RF-27) para que exista una
+ * salida aunque el formulario falle. El honeypot se valida en cliente y en
+ * servidor (api/contact.ts).
+ */
+import { EnvelopeIcon, MapPinIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { t, localizePath, type Lang } from '@/lib/i18n';
+import { IDENTITY } from '@/lib/constants';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const privacyHref = localizePath('/privacidad', lang);
 ---
-<section id="contacto" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8" aria-labelledby="contact-title">
-  <div className="mx-auto max-w-7xl">
-    <header className="text-center max-w-3xl mx-auto mb-16">
-      <h2 id="contact-title" className="text-3xl sm:text-4xl font-bold text-dark-900 dark:text-dark-100 mb-4">
-        <span className="text-primary-600 dark:text-primary-400">Contacta</span> conmigo
-      </h2>
-      <p className="text-lg text-dark-600 dark:text-dark-400">
-        ¿Tienes un proyecto en mente? ¿Quieres colaborar? ¿Solo saludar? Escríbeme.
-      </p>
+
+<section id="contacto" class="section scroll-mt-header" aria-labelledby="contact-title">
+  <div class="section-container">
+    <header class="mx-auto mb-14 max-w-3xl text-center">
+      <h2 id="contact-title" class="section-title">{t('contact.title', lang)}</h2>
+      <p class="section-lead">{t('contact.subtitle', lang)}</p>
     </header>
 
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-      <div className="space-y-6">
-        <Card variant="bordered" padding="lg">
-          <CardContent>
-            <h3 className="text-xl font-semibold text-dark-900 dark:text-dark-100 mb-6">Información de contacto</h3>
-            <div className="space-y-4">
-              <a href="mailto:edu@example.com" className="flex items-center gap-4 p-4 rounded-xl bg-dark-50 dark:bg-dark-800 hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors group">
-                <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
-                  <EnvelopeIcon className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-sm text-dark-500 dark:text-dark-400">Email</p>
-                  <p className="font-medium text-dark-900 dark:text-dark-100">edu@example.com</p>
-                </div>
+    <div class="grid gap-10 lg:grid-cols-5">
+      <div class="lg:col-span-2">
+        <div class="rounded-2xl border border-dark-200 bg-white p-6 dark:border-dark-700 dark:bg-dark-800">
+          <h3 class="mb-4 text-lg font-semibold text-dark-900 dark:text-dark-100">
+            {t('contact.info.title', lang)}
+          </h3>
+          <ul class="space-y-4">
+            <li>
+              <a
+                href={`mailto:${IDENTITY.email}`}
+                class="group flex items-start gap-3 text-dark-600 transition-colors hover:text-primary-700 dark:text-dark-400 dark:hover:text-primary-400"
+              >
+                <EnvelopeIcon className="mt-0.5 h-5 w-5 shrink-0 text-primary-600 dark:text-primary-400" aria-hidden="true" />
+                <span class="break-all">
+                  <span class="block text-xs uppercase tracking-wide text-dark-500 dark:text-dark-400">
+                    {t('contact.info.email', lang)}
+                  </span>
+                  {IDENTITY.email}
+                </span>
               </a>
-              <a href="https://github.com/edu444477" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-dark-50 dark:bg-dark-800 hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors group">
-                <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
-                  <GithubIcon className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-sm text-dark-500 dark:text-dark-400">GitHub</p>
-                  <p className="font-medium text-dark-900 dark:text-dark-100">github.com/edu444477</p>
-                </div>
-              </a>
-              <a href="https://linkedin.com/in/edu444477" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl bg-dark-50 dark:bg-dark-800 hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors group">
-                <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
-                  <LinkedInIcon className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-sm text-dark-500 dark:text-dark-400">LinkedIn</p>
-                  <p className="font-medium text-dark-900 dark:text-dark-100">linkedin.com/in/edu444477</p>
-                </div>
-              </a>
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-dark-50 dark:bg-dark-800">
-                <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
-                  <MapPinIcon className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-sm text-dark-500 dark:text-dark-400">Ubicación</p>
-                  <p className="font-medium text-dark-900 dark:text-dark-100">Málaga, España</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-dark-50 dark:bg-dark-800">
-                <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
-                  <ClockIcon className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-sm text-dark-500 dark:text-dark-400">Disponibilidad</p>
-                  <p className="font-medium text-green-600 dark:text-green-400">Abierto a oportunidades</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card variant="bordered" padding="lg">
-          <CardContent>
-            <h3 className="text-xl font-semibold text-dark-900 dark:text-dark-100 mb-4">Horario preferido</h3>
-            <p className="text-dark-600 dark:text-dark-400">Lunes a Viernes: 9:00 - 18:00 (CET)</p>
-            <p className="text-dark-600 dark:text-dark-400 mt-1">Flexible para reuniones remotas</p>
-          </CardContent>
-        </Card>
+            </li>
+            <li class="flex items-start gap-3 text-dark-600 dark:text-dark-400">
+              <MapPinIcon className="mt-0.5 h-5 w-5 shrink-0 text-primary-600 dark:text-primary-400" aria-hidden="true" />
+              <span>
+                <span class="block text-xs uppercase tracking-wide text-dark-500 dark:text-dark-400">
+                  {t('contact.info.location', lang)}
+                </span>
+                {lang === 'es' ? 'Marbella, Málaga, España' : 'Marbella, Málaga, Spain'}
+              </span>
+            </li>
+            <li class="flex items-start gap-3 text-dark-600 dark:text-dark-400">
+              <CheckCircleIcon className="mt-0.5 h-5 w-5 shrink-0 text-green-500" aria-hidden="true" />
+              <span>
+                <span class="block text-xs uppercase tracking-wide text-dark-500 dark:text-dark-400">
+                  {t('contact.info.availability', lang)}
+                </span>
+                <span class="font-medium text-green-700 dark:text-green-400">
+                  {lang === 'es' ? 'Abierto a oportunidades' : 'Open to opportunities'}
+                </span>
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <div>
-        <Card variant="elevated" padding="lg">
-          <CardContent>
-            <h3 className="text-xl font-semibold text-dark-900 dark:text-dark-100 mb-6">Enviar mensaje</h3>
-            <form id="contact-form" className="space-y-5" action="/api/contact" method="POST">
-              <Input label="Nombre" name="name" required placeholder="Tu nombre" />
-              <Input label="Email" name="email" type="email" required placeholder="tu@email.com" />
-              <Input label="Asunto" name="subject" required placeholder="Asunto del mensaje" />
-              <Textarea label="Mensaje" name="message" required rows={5} placeholder="Cuéntame en qué puedo ayudarte..." />
-              <Button type="submit" className="w-full" size="lg">
-                Enviar mensaje
-              </Button>
-              <p className="text-xs text-center text-dark-500 dark:text-dark-400">
-                Al enviar, aceptas la <a href="/privacy" className="underline hover:text-primary-600">política de privacidad</a>. Respondo en 24-48h laborables.
-              </p>
-            </form>
-          </CardContent>
-        </Card>
+      <div class="lg:col-span-3">
+        <form
+          id="contact-form"
+          class="space-y-5 rounded-2xl border border-dark-200 bg-white p-6 dark:border-dark-700 dark:bg-dark-800"
+          novalidate
+        >
+          <h3 class="text-lg font-semibold text-dark-900 dark:text-dark-100">
+            {t('contact.form.title', lang)}
+          </h3>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="cf-name" class="mb-1.5 block text-sm font-medium text-dark-700 dark:text-dark-300">
+                {t('contact.form.name', lang)}
+              </label>
+              <input
+                type="text"
+                id="cf-name"
+                name="name"
+                autocomplete="name"
+                required
+                class="w-full rounded-lg border border-dark-300 bg-white px-3 py-2.5 text-dark-900 transition-colors placeholder:text-dark-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-dark-600 dark:bg-dark-900 dark:text-dark-100"
+              />
+              <p class="cf-error mt-1 hidden text-sm text-red-600 dark:text-red-400" role="alert"></p>
+            </div>
+
+            <div>
+              <label for="cf-email" class="mb-1.5 block text-sm font-medium text-dark-700 dark:text-dark-300">
+                {t('contact.form.email', lang)}
+              </label>
+              <input
+                type="email"
+                id="cf-email"
+                name="email"
+                autocomplete="email"
+                required
+                class="w-full rounded-lg border border-dark-300 bg-white px-3 py-2.5 text-dark-900 transition-colors placeholder:text-dark-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-dark-600 dark:bg-dark-900 dark:text-dark-100"
+              />
+              <p class="cf-error mt-1 hidden text-sm text-red-600 dark:text-red-400" role="alert"></p>
+            </div>
+          </div>
+
+          <div>
+            <label for="cf-subject" class="mb-1.5 block text-sm font-medium text-dark-700 dark:text-dark-300">
+              {t('contact.form.subject', lang)}
+            </label>
+            <input
+              type="text"
+              id="cf-subject"
+              name="subject"
+              required
+              class="w-full rounded-lg border border-dark-300 bg-white px-3 py-2.5 text-dark-900 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-dark-600 dark:bg-dark-900 dark:text-dark-100"
+            />
+            <p class="cf-error mt-1 hidden text-sm text-red-600 dark:text-red-400" role="alert"></p>
+          </div>
+
+          <div>
+            <label for="cf-message" class="mb-1.5 block text-sm font-medium text-dark-700 dark:text-dark-300">
+              {t('contact.form.message', lang)}
+            </label>
+            <textarea
+              id="cf-message"
+              name="message"
+              rows="5"
+              required
+              class="w-full resize-y rounded-lg border border-dark-300 bg-white px-3 py-2.5 text-dark-900 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-dark-600 dark:bg-dark-900 dark:text-dark-100"
+            ></textarea>
+            <p class="cf-error mt-1 hidden text-sm text-red-600 dark:text-red-400" role="alert"></p>
+          </div>
+
+          <!-- Honeypot: los bots lo rellenan, los humanos nunca lo ven -->
+          <div class="absolute h-0 w-0 overflow-hidden" aria-hidden="true">
+            <label for="cf-website">Website</label>
+            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button
+            type="submit"
+            data-label-sending={t('contact.form.submitting', lang)}
+            class="w-full rounded-lg bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-dark-900"
+          >
+            {t('contact.form.submit', lang)}
+          </button>
+
+          <!-- aria-live para que el lector de pantalla anuncie el resultado -->
+          <p id="cf-status" class="min-h-[1.5rem] text-sm" role="status" aria-live="polite"></p>
+
+          <p class="text-sm text-dark-500 dark:text-dark-400">
+            {t('contact.form.privacyBefore', lang)}
+            <a href={privacyHref} class="font-medium text-primary-700 hover:underline dark:text-primary-400">
+              {t('contact.form.privacyLink', lang)}
+            </a>
+            {t('contact.form.privacyAfter', lang)}
+          </p>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
-<script>
-  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    const originalText = submitBtn.textContent;
-    
+<script define:vars={{ lang, email: IDENTITY.email }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('cf-status');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  const COPY = {
+    es: {
+      required: 'Este campo es obligatorio',
+      email: 'Formato de email no válido',
+      sending: 'Enviando...',
+      success: '¡Mensaje enviado! Te responderé en 24-48h laborables.',
+      error: 'No he podido enviar el mensaje. Inténtalo de nuevo o escríbeme directamente a',
+      sendingLabel: submitBtn.dataset.labelSending,
+    },
+    en: {
+      required: 'This field is required',
+      email: 'Invalid email format',
+      sending: 'Sending...',
+      success: 'Message sent! I will reply within 24-48 business hours.',
+      error: 'I could not send the message. Try again or email me directly at',
+      sendingLabel: submitBtn.dataset.labelSending,
+    },
+  };
+  const copy = COPY[lang] || COPY.es;
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  // RF-24: los cuatro campos se validan a la vez y los errores se acumulan.
+  function validate() {
+    const errors = {};
+    for (const name of ['name', 'email', 'subject', 'message']) {
+      const field = form.elements[name];
+      const value = field.value.trim();
+      if (!value) {
+        errors[name] = copy.required;
+      } else if (name === 'email' && !EMAIL_RE.test(value)) {
+        // RF-25
+        errors[name] = copy.email;
+      }
+    }
+
+    for (const name of ['name', 'email', 'subject', 'message']) {
+      const field = form.elements[name];
+      const errorEl = field.parentElement.querySelector('.cf-error');
+      const error = errors[name];
+      if (error) {
+        errorEl.textContent = error;
+        errorEl.classList.remove('hidden');
+        field.setAttribute('aria-invalid', 'true');
+      } else {
+        errorEl.textContent = '';
+        errorEl.classList.add('hidden');
+        field.removeAttribute('aria-invalid');
+      }
+    }
+
+    return errors;
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    status.textContent = '';
+
+    const errors = validate();
+    if (Object.keys(errors).length > 0) {
+      const firstInvalid = form.querySelector('[aria-invalid="true"]');
+      firstInvalid?.focus();
+      return;
+    }
+
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Enviando...';
-    
+    submitBtn.textContent = copy.sending;
+
     try {
-      const formData = new FormData(form);
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(formData))
+        body: JSON.stringify({
+          name: form.elements.name.value.trim(),
+          email: form.elements.email.value.trim(),
+          subject: form.elements.subject.value.trim(),
+          message: form.elements.message.value.trim(),
+          website: form.elements.website.value,
+        }),
       });
-      
-      if (response.ok) {
-        alert('¡Mensaje enviado! Te responderé pronto.');
-        form.reset();
-      } else {
-        throw new Error('Error al enviar');
-      }
+
+      if (!response.ok) throw new Error(String(response.status));
+
+      // RF-23
+      status.textContent = copy.success;
+      status.className = 'min-h-[1.5rem] text-sm font-medium text-green-700 dark:text-green-400';
+      form.reset();
     } catch {
-      alert('Error al enviar. Intenta de nuevo o escríbeme directamente a edu@example.com');
+      // RF-26: error + email en texto plano como salida
+      status.textContent = `${copy.error} ${email}.`;
+      status.className = 'min-h-[1.5rem] text-sm text-red-600 dark:text-red-400';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      submitBtn.textContent = copy.sendLabel || submitBtn.textContent;
     }
   });
 </script>

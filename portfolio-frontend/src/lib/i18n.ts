@@ -47,12 +47,15 @@ export const dicts: Record<Lang, Dict> = {
 
     // Experience
     'experience.title': 'Experiencia profesional',
+    'experience.subtitle': 'Proyectos, roles y formaciones que han definido mi carrera',
     'experience.education': 'Formación',
     'experience.current': 'Actualidad',
     'experience.techStack': 'Tecnologías',
 
     // Projects
     'projects.title': 'Proyectos destacados',
+    'projects.subtitle': 'Una selección de trabajos que demuestran mi capacidad para resolver problemas reales con código limpio y arquitectura sólida',
+    'projects.empty': 'Todavía no hay proyectos publicados.',
     'projects.other': 'Otros proyectos',
     'projects.viewDetail': 'Ver detalle',
     'projects.code': 'Código',
@@ -64,6 +67,13 @@ export const dicts: Record<Lang, Dict> = {
     'projects.challenges': 'Retos principales',
     'projects.learnings': 'Aprendizajes',
     'projects.techStack': 'Stack técnico',
+    'projects.more': '+{count} más',
+    'projects.back': 'Volver a proyectos',
+    'projects.role': 'Mi rol',
+    'projects.team': 'Equipo',
+    'projects.demoLink': 'Ver demo',
+    'projects.notFound': 'Proyecto no encontrado',
+    'projects.otherPrefix': 'Otros',
 
     // Tech Stack
     'tech.title': 'Stack tecnológico',
@@ -75,9 +85,16 @@ export const dicts: Record<Lang, Dict> = {
     'tech.level.beginner': 'Principiante',
     'tech.level.learning': 'Aprendiendo',
     'tech.docs': 'Docs',
-    'tech.source.cv': 'CV',
-    'tech.source.tfg': 'TFG',
-    'tech.source.portfolio': 'Portfolio',
+    'tech.subtitle': 'Herramientas y tecnologías que uso en mi día a día',
+    'tech.empty': 'Todavía no hay tecnologías registradas.',
+    'tech.source.cv': 'Del CV',
+    'tech.source.tfg': 'Del TFG',
+    'tech.source.portfolio': 'De este portfolio',
+    'tech.sourceDesc.cv': 'Tecnologías que uso de forma profesional en mi trabajo.',
+    'tech.sourceDesc.tfg': 'Tecnologías que usé para construir La Nueva Era.',
+    'tech.sourceDesc.portfolio': 'Tecnologías con las que está construido este sitio.',
+    'tech.cta.title': '¿No ves lo que buscas?',
+    'tech.cta.body': 'Estoy en constante aprendizaje. Si tu proyecto requiere tecnologías no listadas, hablamos y me pongo al día rápido.',
 
     // Contact
     'contact.title': 'Contacta conmigo',
@@ -99,7 +116,9 @@ export const dicts: Record<Lang, Dict> = {
     'contact.form.error': 'Error al enviar. Intenta de nuevo o escríbeme directamente a {email}',
     'contact.form.error.required': 'Este campo es obligatorio',
     'contact.form.error.email': 'Formato de email inválido',
-    'contact.form.privacy': 'Al enviar, aceptas la <a href="/privacy">política de privacidad</a>. Respondo en 24-48h laborables.',
+    'contact.form.privacyBefore': 'Al enviar, aceptas la',
+    'contact.form.privacyLink': 'política de privacidad',
+    'contact.form.privacyAfter': '. Respondo en 24-48h laborables.',
 
     // Footer
     'footer.rights': '© {year} ED. Construido con Astro, React, Tailwind CSS y mucho café.',
@@ -137,7 +156,12 @@ export const dicts: Record<Lang, Dict> = {
     'privacy.rights': 'Derechos',
     'privacy.rightsValue': 'Acceso, rectificación, supresión, limitación, portabilidad y oposición. Puedes ejercerlos escribiendo a eduardoorellanapomares@gmail.com.',
     'privacy.web3forms': 'Uso de Web3Forms',
-    'privacy.web3formsValue': 'El formulario usa Web3Forms para el envío. La clave pública de Web3Forms se incluye en el código del lado del cliente por diseño del servicio. No se almacenan datos personales en este sitio web más allá del envío del formulario.',
+    'privacy.web3formsValue': 'El formulario usa Web3Forms para el envío. La clave de Web3Forms se mantiene en el servidor y nunca se envía al navegador. Los mensajes se reenvían por email y no se almacenan en este sitio web.',
+    'privacy.retention': 'Conservación',
+    'privacy.retentionValue': 'No se guardan datos en este sitio. Los mensajes recibidos se conservan únicamente mientras dura la conversación comercial y, como máximo, 12 meses.',
+    'privacy.updates': 'Cambios en esta política',
+    'privacy.updatesValue': 'Esta política puede actualizarse si cambian los servicios utilizados. La fecha de la última revisión se mantiene en el repositorio del proyecto.',
+    'privacy.back': 'Volver al inicio',
 
     // 404
     'notfound.title': 'Página no encontrada',
@@ -187,12 +211,15 @@ export const dicts: Record<Lang, Dict> = {
 
     // Experience
     'experience.title': 'Professional Experience',
+    'experience.subtitle': 'Projects, roles and training that shaped my career',
     'experience.education': 'Education',
     'experience.current': 'Present',
     'experience.techStack': 'Technologies',
 
     // Projects
     'projects.title': 'Featured Projects',
+    'projects.subtitle': 'A selection of work that shows how I solve real problems with clean code and solid architecture',
+    'projects.empty': 'No projects published yet.',
     'projects.other': 'Other Projects',
     'projects.viewDetail': 'View detail',
     'projects.code': 'Code',
@@ -204,6 +231,15 @@ export const dicts: Record<Lang, Dict> = {
     'projects.challenges': 'Main challenges',
     'projects.learnings': 'Learnings',
     'projects.techStack': 'Tech stack',
+    'projects.more': '+{count} more',
+    'projects.back': 'Back to projects',
+    'projects.role': 'My role',
+    'projects.team': 'Team',
+    'projects.demoLink': 'View demo',
+    'projects.notFound': 'Project not found',
+    'projects.otherPrefix': 'Other',
+    'projects.contentWarning': 'The long-form project content is written in Spanish in the source content; the interface itself is translated.',
+    'projects.contentWarning': 'Los textos de detalle se describen en español en el contenido de origen; la interfaz está traducida.',
 
     // Tech Stack
     'tech.title': 'Tech Stack',
@@ -215,9 +251,16 @@ export const dicts: Record<Lang, Dict> = {
     'tech.level.beginner': 'Beginner',
     'tech.level.learning': 'Learning',
     'tech.docs': 'Docs',
-    'tech.source.cv': 'CV',
-    'tech.source.tfg': 'TFG',
-    'tech.source.portfolio': 'Portfolio',
+    'tech.subtitle': 'Tools and technologies I use every day',
+    'tech.empty': 'No technologies registered yet.',
+    'tech.source.cv': 'From my CV',
+    'tech.source.tfg': 'From the TFG',
+    'tech.source.portfolio': 'From this portfolio',
+    'tech.sourceDesc.cv': 'Technologies I use professionally in my job.',
+    'tech.sourceDesc.tfg': 'Technologies I used to build La Nueva Era.',
+    'tech.sourceDesc.portfolio': 'Technologies this site is built with.',
+    'tech.cta.title': 'Do not see what you need?',
+    'tech.cta.body': 'I am constantly learning. If your project requires technologies not listed here, let us talk and I will get up to speed quickly.',
 
     // Contact
     'contact.title': 'Get in touch',
@@ -239,7 +282,9 @@ export const dicts: Record<Lang, Dict> = {
     'contact.form.error': 'Failed to send. Try again or write directly to {email}',
     'contact.form.error.required': 'This field is required',
     'contact.form.error.email': 'Invalid email format',
-    'contact.form.privacy': 'By sending, you accept the <a href="/privacy">privacy policy</a>. I reply within 24-48h on business days.',
+    'contact.form.privacyBefore': 'By sending, you accept the',
+    'contact.form.privacyLink': 'privacy policy',
+    'contact.form.privacyAfter': '. I reply within 24-48h on business days.',
 
     // Footer
     'footer.rights': '© {year} ED. Built with Astro, React, Tailwind CSS and lots of coffee.',
@@ -277,7 +322,12 @@ export const dicts: Record<Lang, Dict> = {
     'privacy.rights': 'Rights',
     'privacy.rightsValue': 'Access, rectification, erasure, restriction, portability, and objection. Exercise them by writing to eduardoorellanapomares@gmail.com.',
     'privacy.web3forms': 'Web3Forms Usage',
-    'privacy.web3formsValue': 'The form uses Web3Forms for submission. The Web3Forms public key is included in client-side code by service design. No personal data is stored on this website beyond form submission.',
+    'privacy.web3formsValue': 'The form uses Web3Forms for submission. The Web3Forms key stays on the server and is never sent to the browser. Messages are forwarded by email and are not stored on this site.',
+    'privacy.retention': 'Retention',
+    'privacy.retentionValue': 'No data is stored on this site. Received messages are kept only for the duration of the business conversation and at most 12 months.',
+    'privacy.updates': 'Policy changes',
+    'privacy.updatesValue': 'This policy may be updated if the services used change. The date of the last review is kept in the project repository.',
+    'privacy.back': 'Back to home',
 
     // 404
     'notfound.title': 'Page not found',

@@ -1,4 +1,7 @@
 ---
+/**
+ * Home bilingüe. Reúne las seis secciones en el orden que fija RF-1.
+ */
 import Layout from '@/layouts/Layout.astro';
 import Hero from '@/components/layout/Hero';
 import About from '@/components/sections/About.astro';
@@ -7,13 +10,12 @@ import Projects from '@/components/sections/Projects.astro';
 import TechStack from '@/components/sections/TechStack.astro';
 import Contact from '@/components/sections/Contact.astro';
 import { IDENTITY, localize } from '@/lib/constants';
-import type { Lang } from '@/lib/i18n';
+import { getSlug, type Lang } from '@/lib/i18n';
+
+export const prerender = true;
 
 export async function getStaticPaths() {
-  return [
-    { params: { lang: 'es' } },
-    { params: { lang: 'en' } },
-  ];
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
 }
 
 // Los params de ruta NO llegan por Astro.props: leerlos de Astro.params.
@@ -21,17 +23,15 @@ const lang: Lang = Astro.params.lang === 'en' ? 'en' : 'es';
 
 const role = localize(IDENTITY.role, lang);
 const bio = localize(IDENTITY.bio, lang);
-const title = `${IDENTITY.name} — ${role}`;
-const description = bio;
 ---
 
-<Layout title={title} description={description} lang={lang}>
+<Layout title={`${IDENTITY.name} — ${role}`} description={bio} lang={lang}>
   <Hero
     name={IDENTITY.name}
     title={role}
     description={bio}
-    ctaHref="#proyectos"
-    secondaryCtaHref="#contacto"
+    ctaHref={`#${getSlug('proyectos', lang)}`}
+    secondaryCtaHref={`#${getSlug('contacto', lang)}`}
     lang={lang}
   />
   <About
@@ -44,12 +44,8 @@ const description = bio;
     skills={IDENTITY.skills}
     lang={lang}
   />
-  <Experience />
-  <Projects />
-  <TechStack />
-  <Contact />
+  <Experience lang={lang} />
+  <Projects lang={lang} />
+  <TechStack lang={lang} />
+  <Contact lang={lang} />
 </Layout>
-
-<script>
-  // ThemeToggle y LanguageToggle se hidratan automáticamente vía client:visible
-</script>

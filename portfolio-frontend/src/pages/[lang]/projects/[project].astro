@@ -1,0 +1,210 @@
+---
+/**
+ * Detalle de proyecto (RF-15, RF-16, RFN-2).
+ * Los slugs se traducen por locale: /es/projects/x <-> /en/projects/x
+ */
+import { getCollection, render } from 'astro:content';
+import {
+  ArrowTopRightOnSquareIcon,
+  ArrowLeftIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/24/outline';
+import Layout from '@/layouts/Layout.astro';
+import { t, localizePath, type Lang } from '@/lib/i18n';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  const langs = ['es', 'en'] as const;
+
+  return langs.flatMap((lang) =>
+    projects.map((project) => ({
+      params: { lang, project: project.slug },
+      props: { project, lang },
+    })),
+  );
+}
+
+type Project = Awaited<ReturnType<typeof getCollection<'projects'>>>[number];
+
+const { project, lang } = Astro.props as { project: Project; lang: Lang };
+
+const data = project.data;
+const backHref = `${localizePath('/', lang)}#proyectos`;
+const { Content } = await render(project);
+
+const STATUS_CLASS: Record<string, string> = {
+  completed: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
+  'in-progress': 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+  planned: 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300',
+  archived: 'bg-dark-100 text-dark-700 dark:bg-dark-700 dark:text-dark-300',
+};
+
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
+    year: 'numeric',
+    month: 'long',
+  });
+---
+
+<Layout
+  title={`${data.title} — Eduardo Orellana`}
+  description={data.shortDescription}
+  type="article"
+  lang={lang}
+>
+  <article class="section scroll-mt-header">
+    <div class="section-container max-w-4xl">
+      <a
+        href={backHref}
+        class="mb-8 inline-flex items-center gap-2 text-sm font-medium text-primary-700 transition-colors hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+      >
+        <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
+        {t('projects.back', lang)}
+      </a>
+
+      <header class="mb-10">
+        <div class="mb-4 flex flex-wrap items-center gap-3">
+          <span
+            class={`rounded-full px-3 py-1 text-xs font-medium ${STATUS_CLASS[data.status]}`}
+          >
+            {t(`projects.status.${data.status}`, lang)}
+          </span>
+          <time class="text-sm text-dark-500 dark:text-dark-400">
+            {formatDate(data.startDate)}
+            {data.endDate && ` — ${formatDate(data.endDate)}`}
+          </time>
+        </div>
+        <h1 class="text-4xl font-bold text-dark-900 dark:text-dark-100">{data.title}</h1>
+        <p class="mt-4 text-lg leading-relaxed text-dark-600 dark:text-dark-400">
+          {data.description}
+        </p>
+      </header>
+
+      <div class="mb-10 flex flex-wrap gap-3">
+        {
+          data.repoUrl && (
+            <a
+              href={data.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-2.5 font-medium text-white transition-colors hover:bg-primary-700"
+            >
+              {t('projects.code', lang)}
+              <ArrowTopRightOnSquareIcon className="h-4 w-4" aria-hidden="true" />
+            </a>
+          )
+        }
+        {
+          data.liveUrl && (
+            <a
+              href={data.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-lg border-2 border-dark-300 px-5 py-2.5 font-medium transition-colors hover:border-primary-400 hover:text-primary-700 dark:border-dark-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+            >
+              {t('projects.demoLink', lang)}
+              <ArrowTopRightOnSquareIcon className="h-4 w-4" aria-hidden="true" />
+            </a>
+          )
+        }
+      </div>
+
+      {
+        (data.role || data.teamSize) && (
+          <dl class="mb-10 grid gap-4 rounded-2xl border border-dark-200 bg-white p-6 sm:grid-cols-2 dark:border-dark-700 dark:bg-dark-800">
+            {data.role && (
+              <div>
+                <dt class="text-xs uppercase tracking-wide text-dark-500 dark:text-dark-400">
+                  {t('projects.role', lang)}
+                </dt>
+                <dd class="mt-1 font-medium text-dark-900 dark:text-dark-100">{data.role}</dd>
+              </div>
+            )}
+            {data.teamSize && (
+              <div>
+                <dt class="text-xs uppercase tracking-wide text-dark-500 dark:text-dark-400">
+                  {t('projects.team', lang)}
+                </dt>
+                <dd class="mt-1 font-medium text-dark-900 dark:text-dark-100">{data.teamSize}</dd>
+              </div>
+            )}
+          </dl>
+        )
+      }
+
+      {
+        data.techStack.length > 0 && (
+          <section class="mb-10">
+            <h2 class="mb-4 text-xl font-bold text-dark-900 dark:text-dark-100">
+              {t('projects.techStack', lang)}
+            </h2>
+            <ul class="flex flex-wrap gap-2">
+              {data.techStack.map((tech) => (
+                <li class="rounded-full bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-800 dark:bg-primary-900/30 dark:text-primary-300">
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        data.challenges && data.challenges.length > 0 && (
+          <section class="mb-10">
+            <h2 class="mb-4 text-xl font-bold text-dark-900 dark:text-dark-100">
+              {t('projects.challenges', lang)}
+            </h2>
+            <ul class="space-y-3">
+              {data.challenges.map((challenge) => (
+                <li class="flex gap-3 text-dark-600 dark:text-dark-400">
+                  <span
+                    class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-500"
+                    aria-hidden="true"
+                  />
+                  <span>{challenge}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        data.learnings && data.learnings.length > 0 && (
+          <section class="mb-10">
+            <h2 class="mb-4 text-xl font-bold text-dark-900 dark:text-dark-100">
+              {t('projects.learnings', lang)}
+            </h2>
+            <ul class="space-y-3">
+              {data.learnings.map((learning) => (
+                <li class="flex gap-3 text-dark-600 dark:text-dark-400">
+                  <span
+                    class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-green-500"
+                    aria-hidden="true"
+                  />
+                  <span>{learning}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        project.body && (
+          <section class="prose prose-slate max-w-none dark:prose-invert">
+            <Content />
+          </section>
+        )
+      }
+
+      <p class="mt-12 flex items-center gap-2 rounded-xl bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-900/20 dark:text-amber-200">
+        <ExclamationTriangleIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
+        {t('projects.contentWarning', lang)}
+      </p>
+    </div>
+  </article>
+</Layout>
