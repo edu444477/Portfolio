@@ -79,20 +79,21 @@ export default function Header({ lang, pathname }: HeaderProps) {
           </div>
 
           <div className="hidden md:flex md:items-center md:gap-8">
-            <nav aria-label={t('nav.primary', lang)}>
-              <ul className="flex items-center gap-8">
-                {navigation.map((item) => (
-                  <li key={item.key}>
-                    <a
-                      href={anchorHref(item.key)}
-                      className="text-sm font-medium text-dark-600 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                    >
-                      {t(item.i18n, lang)}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+            {/* Sin <nav> propio: el exterior ya envuelve esta lista y dos
+                landmarks con la misma etiqueta los rompe un lector de
+                pantalla (axe: landmark-unique). */}
+            <ul className="flex items-center gap-8">
+              {navigation.map((item) => (
+                <li key={item.key}>
+                  <a
+                    href={anchorHref(item.key)}
+                    className="text-sm font-medium text-dark-600 dark:text-dark-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >
+                    {t(item.i18n, lang)}
+                  </a>
+                </li>
+              ))}
+            </ul>
             <LanguageToggle lang={lang} pathname={pathname} />
             <ThemeToggle lang={lang} />
           </div>
