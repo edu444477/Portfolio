@@ -238,8 +238,6 @@ export const dicts: Record<Lang, Dict> = {
     'projects.demoLink': 'View demo',
     'projects.notFound': 'Project not found',
     'projects.otherPrefix': 'Other',
-    'projects.contentWarning': 'The long-form project content is written in Spanish in the source content; the interface itself is translated.',
-    'projects.contentWarning': 'Los textos de detalle se describen en español en el contenido de origen; la interfaz está traducida.',
 
     // Tech Stack
     'tech.title': 'Tech Stack',
