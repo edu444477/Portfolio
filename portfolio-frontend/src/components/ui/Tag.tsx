@@ -29,7 +29,7 @@ export function Tag({ children, variant = 'tech', removable, onRemove, className
           className={clsx(
             'p-0.5 rounded-full transition-colors',
             'hover:bg-black/10 dark:hover:bg-white/10',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500'
+            'focus:outline-none focus:ring-2 focus:ring-primary-600'
           )}
           aria-label={`Eliminar ${children}`}
         >

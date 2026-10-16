@@ -9,7 +9,7 @@
  */
 @layer base {
   :root {
-    --skip-bg: #0284c7;
+    --skip-bg: #0369a1;
     --skip-fg: #ffffff;
   }
 
@@ -26,13 +26,13 @@
   /* Foco visible y consistente en TODO el sitio. Quitar el outline por
      defecto solo aquí, donde se repone con un anillo visible. */
   :focus-visible {
-    outline: 2px solid theme('colors.primary.500');
+    outline: 2px solid theme('colors.primary.600');
     outline-offset: 2px;
     border-radius: 2px;
   }
 
   .dark :focus-visible {
-    outline-color: theme('colors.primary.400');
+    outline-color: theme('colors.primary.500');
   }
 
   /* Skip link: oculto hasta recibir foco (RFN-4). */

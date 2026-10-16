@@ -28,7 +28,7 @@ export default function LanguageToggle({ lang, pathname }: LanguageToggleProps) 
         'p-2 rounded-lg transition-all duration-200 inline-flex items-center gap-1.5',
         'text-dark-600 dark:text-dark-400',
         'hover:bg-dark-100 dark:hover:bg-dark-800',
-        'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-dark-900'
+        'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-dark-900'
       )}
       aria-label={t('lang.switchTo', lang, { lang: otherLabel })}
     >

@@ -18,7 +18,7 @@ export function ThemeToggle({ lang }: ThemeToggleProps) {
       className={clsx(
         'p-2 rounded-lg transition-all duration-200',
         'hover:bg-dark-100 dark:hover:bg-dark-800',
-        'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-dark-900',
+        'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-dark-900',
         'text-dark-600 dark:text-dark-400'
       )}
       aria-label={t(theme === 'light' ? 'theme.toDark' : 'theme.toLight', lang)}

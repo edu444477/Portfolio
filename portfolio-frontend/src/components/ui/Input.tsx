@@ -30,7 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             'w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-dark-800',
             'text-dark-900 dark:text-dark-100 placeholder-dark-400 dark:placeholder-dark-500',
             'transition-all duration-200',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+            'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent',
             'disabled:bg-dark-100 dark:disabled:bg-dark-900 disabled:cursor-not-allowed',
             error
               ? 'border-red-500 focus:ring-red-500'
@@ -75,7 +75,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, Omit<TextareaHTMLAttribu
             'w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-dark-800',
             'text-dark-900 dark:text-dark-100 placeholder-dark-400 dark:placeholder-dark-500',
             'transition-all duration-200 resize-y min-h-[100px]',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+            'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent',
             'disabled:bg-dark-100 dark:disabled:bg-dark-900 disabled:cursor-not-allowed',
             error
               ? 'border-red-500 focus:ring-red-500'
@@ -120,7 +120,7 @@ export const Select = forwardRef<HTMLSelectElement, Omit<SelectHTMLAttributes<HT
             'w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-dark-800',
             'text-dark-900 dark:text-dark-100',
             'transition-all duration-200 appearance-none bg-no-repeat bg-right pr-10',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+            'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent',
             'disabled:bg-dark-100 dark:disabled:bg-dark-900 disabled:cursor-not-allowed',
             error
               ? 'border-red-500 focus:ring-red-500'

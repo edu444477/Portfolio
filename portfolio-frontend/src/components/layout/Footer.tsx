@@ -65,7 +65,7 @@ export default function Footer({ lang, pathname }: FooterProps) {
                     href={link.href}
                     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     aria-label={t(link.i18n, lang)}
-                    className="p-2 rounded-lg transition-all duration-200 text-dark-500 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-dark-100 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-dark-900"
+                    className="p-2 rounded-lg transition-all duration-200 text-dark-500 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-dark-100 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-dark-900"
                   >
                     <Icon className="w-5 h-5" aria-hidden="true" />
                   </a>

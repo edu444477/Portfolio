@@ -44,8 +44,8 @@ export default function Hero({ name, title, description, ctaHref, secondaryCtaHr
               href={ctaHref}
               className={clsx(
                 'inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-semibold text-base',
-                'bg-primary-600 text-white hover:bg-primary-700',
-                'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-dark-900',
+                'bg-primary-700 text-white hover:bg-primary-800',
+                'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-dark-900',
                 'transition-all duration-200 shadow-lg shadow-primary-500/25'
               )}
             >
@@ -58,7 +58,7 @@ export default function Hero({ name, title, description, ctaHref, secondaryCtaHr
                 'inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-semibold text-base',
                 'border-2 border-dark-300 dark:border-dark-600 text-dark-700 dark:text-dark-300',
                 'hover:bg-dark-100 dark:hover:bg-dark-800',
-                'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-dark-900',
+                'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-dark-900',
                 'transition-all duration-200'
               )}
             >
