@@ -1,9 +1,9 @@
 ---
 import { t, getAlternateUrls, type Lang } from '@/lib/i18n';
+import { themeInitScript } from '@/lib/theme';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SEO } from '@/components/layout/SEO';
-import ThemeProvider from '@/components/layout/ThemeProvider';
 
 interface Props {
   title: string;
@@ -26,6 +26,8 @@ const alternates = getAlternateUrls(Astro.url.pathname);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline set:html={themeInitScript()} />
     <link rel="canonical" href={canonicalUrl} />
 
     <link rel="alternate" hreflang="es" href={alternates.es} />
@@ -41,12 +43,18 @@ const alternates = getAlternateUrls(Astro.url.pathname);
       {t('skip.main', safeLang)}
     </a>
 
-    <ThemeProvider client:visible>
-      <Header lang={safeLang} />
-      <main id="main" class="flex-1">
-        <slot />
-      </main>
-      <Footer lang={safeLang} />
-    </ThemeProvider>
+    <Header lang={safeLang} pathname={Astro.url.pathname} client:load />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer lang={safeLang} pathname={Astro.url.pathname} client:visible />
   </body>
 </html>
+
+<style is:global>
+  /* RF-3: margen para que el header fijo (h-16 = 64px + aire) no tape
+     el inicio de la sección al navegar por anclas. */
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+</style>

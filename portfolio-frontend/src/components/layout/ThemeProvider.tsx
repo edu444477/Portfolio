@@ -1,53 +1,20 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useSyncExternalStore } from 'react';
+import { getSnapshot, setTheme as setThemeStore, subscribe, toggleTheme as toggleThemeStore, type Theme } from '@/lib/theme';
 
-type Theme = 'light' | 'dark';
-
-interface ThemeContextType {
-  theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('light');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem('theme') as Theme | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initial = stored || (prefersDark ? 'dark' : 'light');
-    setThemeState(initial);
-    document.documentElement.classList.toggle('dark', initial === 'dark');
-  }, []);
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
+/**
+ * Hook del tema (RF-28, RF-29).
+ *
+ * No hay contexto a propósito: Astro renderiza `Header` y `Footer` como HTML
+ * del servidor fuera del árbol de React, así que un Provider no los alcanza.
+ * Un island lee el store exterior directamente con useSyncExternalStore, que
+ * además da el mismo snapshot en servidor y cliente (sin hydration mismatch).
+ */
 export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
+  const theme = useSyncExternalStore(subscribe, getSnapshot, () => 'light');
+
+  return {
+    theme,
+    toggleTheme: () => toggleThemeStore(),
+    setTheme: (newTheme: Theme) => setThemeStore(newTheme),
+  };
 }

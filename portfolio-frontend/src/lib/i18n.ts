@@ -15,6 +15,10 @@ export const dicts: Record<Lang, Dict> = {
     'nav.proyectos': 'Proyectos',
     'nav.tecnologias': 'Tecnologías',
     'nav.contacto': 'Contacto',
+    'nav.primary': 'Navegación principal',
+    'nav.mobile': 'Menú móvil',
+    'nav.openMenu': 'Abrir menú',
+    'nav.closeMenu': 'Cerrar menú',
 
     // Hero
     'hero.title': 'Hola, soy',
@@ -101,10 +105,18 @@ export const dicts: Record<Lang, Dict> = {
     'footer.rights': '© {year} ED. Construido con Astro, React, Tailwind CSS y mucho café.',
     'footer.backToTop': 'Volver arriba',
     'footer.privacy': 'Privacidad',
+    'footer.links': 'Enlaces',
+    'footer.connect': 'Conectar',
+    'footer.quickLinks': 'Enlaces rápidos',
+    'footer.bio': 'Desarrollador Full Stack apasionado por crear aplicaciones web modernas, escalables y accesibles. Especializado en React, Python, bases de datos y arquitectura cloud.',
+    'footer.social.github': 'GitHub',
+    'footer.social.linkedin': 'LinkedIn',
+    'footer.social.email': 'Enviar email',
 
     // Theme
     'theme.toDark': 'Cambiar a modo oscuro',
     'theme.toLight': 'Cambiar a modo claro',
+    'theme.loading': 'Cargando tema...',
 
     // Language
     'lang.switchTo': 'Cambiar a {lang}',
@@ -143,6 +155,10 @@ export const dicts: Record<Lang, Dict> = {
     'nav.proyectos': 'Projects',
     'nav.tecnologias': 'Tech Stack',
     'nav.contacto': 'Contact',
+    'nav.primary': 'Main navigation',
+    'nav.mobile': 'Mobile menu',
+    'nav.openMenu': 'Open menu',
+    'nav.closeMenu': 'Close menu',
 
     // Hero
     'hero.title': 'Hi, I\'m',
@@ -229,10 +245,18 @@ export const dicts: Record<Lang, Dict> = {
     'footer.rights': '© {year} ED. Built with Astro, React, Tailwind CSS and lots of coffee.',
     'footer.backToTop': 'Back to top',
     'footer.privacy': 'Privacy',
+    'footer.links': 'Links',
+    'footer.connect': 'Connect',
+    'footer.quickLinks': 'Quick links',
+    'footer.bio': 'Full Stack Developer passionate about building modern, scalable and accessible web applications. Specialized in React, Python, databases and cloud architecture.',
+    'footer.social.github': 'GitHub',
+    'footer.social.linkedin': 'LinkedIn',
+    'footer.social.email': 'Send email',
 
     // Theme
     'theme.toDark': 'Switch to dark mode',
     'theme.toLight': 'Switch to light mode',
+    'theme.loading': 'Loading theme...',
 
     // Language
     'lang.switchTo': 'Switch to {lang}',
@@ -294,6 +318,17 @@ export function getLangFromUrl(url: URL): Lang {
   const first = segments[0];
   if (first === 'es' || first === 'en') return first;
   return 'es';
+}
+
+/**
+ * Reescribe una ruta al idioma indicado, traduciendo también los slugs.
+ * `/es/proyectos` -> `/en/projects/` (RF-8)
+ */
+export function localizePath(pathname: string, lang: Lang): string {
+  const segments = pathname.split('/').filter(Boolean);
+  const rest = segments[0] === 'es' || segments[0] === 'en' ? segments.slice(1) : segments;
+  const mapped = rest.map((segment) => getSlug(segment, lang));
+  return `/${[lang, ...mapped].join('/')}/`;
 }
 
 export function getAlternateUrls(pathname: string): { es: string; en: string; xDefault: string } {

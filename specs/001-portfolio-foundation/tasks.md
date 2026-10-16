@@ -13,7 +13,7 @@ Tareas derivadas de `plan.md`. Orden de dependencia, cada una ≤ 30 min, build 
 - [x] **T3. ThemeProvider + ThemeToggle (React island).** RF-28, RF-29, RF-30, RFN-2, RFN-11
   - Hecho cuando: `npm run build` verde; toggle alterna tema claro/oscuro; preferencia persiste en localStorage; default = `prefers-color-scheme`; `aria-label` bilingüe (ES/EN) en ThemeToggle; clase `dark` en `<html>` alterna; sin FOUC al cargar.
 
-- [ ] **T4. LanguageToggle (React island).** RF-8, RFN-2
+- [x] **T4. LanguageToggle (React island).** RF-8, RFN-2
   - Hecho cuando: `npm run build` verde; botón ES/EN en header y footer; click navega a URL con locale opuesto (recarga); `aria-label` bilingüe; texto del botón cambia según locale actual.
 
 - [x] **T5. i18n diccionarios + constants.ts (identidad, contacto, enlaces).** RF-2, RFN-2
@@ -71,7 +71,7 @@ Cada tarea:
 - [x] T1
 - [x] T2
 - [x] T3
-- [ ] T4
+- [x] T4
 - [x] T5
 - [x] T6
 - [ ] T7
