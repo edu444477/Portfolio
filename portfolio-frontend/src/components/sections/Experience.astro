@@ -16,6 +16,7 @@ import {
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { t, type Lang } from '@/lib/i18n';
+import { byLocale } from '@/lib/content';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -24,9 +25,9 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const entries = await getCollection('experience');
-
 type Entry = CollectionEntry<'experience'>;
+
+const entries = byLocale(await getCollection('experience'), lang);
 
 const isEducation = (e: Entry) => e.data.type === 'education' || e.data.type === 'project';
 

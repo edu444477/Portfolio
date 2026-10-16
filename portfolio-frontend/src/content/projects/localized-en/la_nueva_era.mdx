@@ -1,0 +1,113 @@
+---
+title: "La Nueva Era"
+description: "A complete e-commerce platform for second-hand video games with a trade-in system, cart, wishlist, newsletter and an administration panel for managing shifts and employees."
+shortDescription: "Video game e-commerce with trade-in, HR admin panel and full-stack architecture."
+techStack: ["React", "Flask", "PostgreSQL", "JWT", "Redis", "Docker", "GitHub Actions"]
+category: "web"
+status: "completed"
+featured: true
+startDate: "2024-01-15"
+endDate: "2024-06-20"
+repoUrl: "https://github.com/edu444477/la_nueva_era"
+liveUrl: "https://la-nueva-era-api.onrender.com"
+image: "/projects/la_nueva_era/hero.png"
+images:
+  - "/projects/la_nueva_era/dashboard.png"
+  - "/projects/la_nueva_era/mobile.png"
+challenges:
+  - "Designing a complex relational schema for e-commerce and HR in a single database"
+  - "Implementing secure JWT authentication with refresh tokens and blacklisting"
+  - "Managing complex state in React (cart, wishlist, trade-in)"
+  - "Deploying on PythonAnywhere with MySQL and static files served by Flask"
+learnings:
+  - "API-first architecture with Flask-RESTful and separation of concerns"
+  - "Database migrations with Alembic and schema management"
+  - "API testing with pytest and mocking external services"
+  - "Basic CI/CD with GitHub Actions"
+role: "Full Stack Developer (Final Degree Project)"
+teamSize: 1
+---
+
+# La Nueva Era — Final Degree Project
+
+## Overview
+
+**La Nueva Era** is my Final Degree Project: a complete platform for buying, selling and trading second-hand physical video games. It includes a public marketplace, a user system with cart and wishlist, a newsletter, and a full administration panel for managing shifts, employees and incidents (HR module).
+
+## Architecture
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   React SPA     │────▶│   Flask API     │────▶│  PostgreSQL     │
+│   (Vite)        │     │   (RESTful)     │     │  (MySQL in PA)  │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                              │
+                              ▼
+                       ┌─────────────────┐
+                       │     Redis       │
+                       │  (Cache/Session)│
+                       └─────────────────┘
+```
+
+## Core Features
+
+### Marketplace
+- Product catalogue with filters by category, game and price
+- Product page with images, description, condition and stock
+- Real-time search
+
+### User Area
+- Registration/login with JWT (access + refresh tokens)
+- Persistent cart (localStorage + server sync)
+- Wishlist
+- Order history and details
+- Trade-in system between users
+- Ratings and reviews
+
+### Newsletter
+- Double opt-in subscription
+- Subscriber management in the admin panel
+
+### Administration Panel (HR)
+- Company management (location, geofencing radius)
+- Shifts and time slots per day
+- Employee CRUD (roles, shifts, company)
+- Attendance records with geolocation validation
+- Incidents and justification documents
+
+## Tech Stack In Detail
+
+| Layer | Technology | Rationale |
+|-------|------------|-----------|
+| Frontend | React 18 + Vite | DX, HMR, optimised bundle |
+| Routing | React Router v6 | SPA routing, lazy loading |
+| State | Context API + useReducer | No extra dependencies, sufficient |
+| Styling | CSS Modules + Variables | Scoping, theming, no runtime |
+| Backend | Flask 3 + Flask-RESTful | Lightweight, mature, full control |
+| Auth | Flask-JWT-Extended | Standard JWT, refresh, blacklist |
+| ORM | SQLAlchemy 2.0 + Alembic | Type hints, versioned migrations |
+| DB | MySQL (PythonAnywhere) / PostgreSQL (local) | Relational, ACID transactions |
+| Cache | Redis (Upstash) | Sessions, rate limiting, queues |
+| Deploy | PythonAnywhere (WSGI) / Docker | Free, straightforward for the project |
+
+## Key Decisions
+
+1. **API-first**: the entire frontend consumes the REST API, enabling future mobile clients.
+2. **Separate schemas**: in PostgreSQL I use `search_path` to isolate e-commerce (`tfg`) from HR (`tfg_rrhh`).
+3. **Dual validation**: Zod on the frontend + Marshmallow/Pydantic on the backend.
+4. **Security**: Bcrypt for passwords, JWT with short expiry + refresh, restrictive CORS, rate limiting.
+
+## Metrics
+
+- **API endpoints**: 28 (auth, products, cart, orders, wishlist, trade-in, newsletter, admin)
+- **DB models**: 14 core tables + migrations
+- **Test coverage**: ~70% (pytest + React Testing Library)
+- **Lighthouse**: 95+ Performance, 100 Accessibility
+
+## Next Steps
+
+- [ ] Migrate to PostgreSQL in production (Neon/Railway)
+- [ ] Add E2E tests with Playwright
+- [ ] Implement push notifications (Service Worker)
+- [ ] Admin panel with React Admin or Refine
+- [ ] Full CI/CD with staging/production

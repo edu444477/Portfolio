@@ -7,6 +7,7 @@
 import { getCollection } from 'astro:content';
 import { ArrowTopRightOnSquareIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { t, localizePath, type Lang } from '@/lib/i18n';
+import { byLocale } from '@/lib/content';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -20,7 +21,7 @@ type Project = CollectionEntry<'projects'>;
 const byStartDateDesc = (a: Project, b: Project) =>
   new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime();
 
-const all = await getCollection('projects');
+const all = byLocale(await getCollection('projects'), lang);
 const featured = all.filter((p) => p.data.featured).sort(byStartDateDesc);
 const others = all.filter((p) => !p.data.featured).sort(byStartDateDesc);
 

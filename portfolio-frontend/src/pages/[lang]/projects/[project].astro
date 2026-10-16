@@ -7,21 +7,23 @@ import { getCollection, render } from 'astro:content';
 import {
   ArrowTopRightOnSquareIcon,
   ArrowLeftIcon,
-  ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import Layout from '@/layouts/Layout.astro';
 import { t, localizePath, type Lang } from '@/lib/i18n';
+import { byLocale, baseSlug } from '@/lib/content';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
+  const all = await getCollection('projects');
   const langs = ['es', 'en'] as const;
 
+  // Una ruta por idioma, con el contenido de ese idioma y el slug público
+  // compartido: la URL solo cambia por el prefijo de locale.
   return langs.flatMap((lang) =>
-    projects.map((project) => ({
-      params: { lang, project: project.slug },
-      props: { project, lang },
+    byLocale(all, lang).map((entry) => ({
+      params: { lang, project: baseSlug(entry.slug) },
+      props: { project: entry, lang },
     })),
   );
 }
@@ -200,11 +202,6 @@ const formatDate = (date: string) =>
           </section>
         )
       }
-
-      <p class="mt-12 flex items-center gap-2 rounded-xl bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-900/20 dark:text-amber-200">
-        <ExclamationTriangleIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
-        {t('projects.contentWarning', lang)}
-      </p>
     </div>
   </article>
 </Layout>
