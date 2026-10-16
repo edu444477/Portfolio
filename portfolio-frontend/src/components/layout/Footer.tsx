@@ -31,14 +31,14 @@ export default function Footer({ lang, pathname }: FooterProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-4">ED</h3>
+            <h2 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-4">ED</h2>
             <p className="text-dark-600 dark:text-dark-400 text-sm leading-relaxed">
               {t('footer.bio', lang)}
             </p>
           </div>
 
           <nav aria-label={t('footer.quickLinks', lang)}>
-            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-4">{t('footer.links', lang)}</h3>
+            <h2 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-4">{t('footer.links', lang)}</h2>
             <ul className="space-y-2">
               {quickLinks.map((item) => (
                 <li key={item.key}>
@@ -54,7 +54,7 @@ export default function Footer({ lang, pathname }: FooterProps) {
           </nav>
 
           <div>
-            <h3 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-4">{t('footer.connect', lang)}</h3>
+            <h2 className="text-lg font-semibold text-dark-900 dark:text-dark-100 mb-4">{t('footer.connect', lang)}</h2>
             <div className="flex gap-4">
               {socialLinks.map((link) => {
                 const Icon = link.icon;
