@@ -4,15 +4,15 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 
 ## Estado actual (2026-10-16)
 
-- **Spec 001 (Portfolio bilingüe)**: aprobada y en ejecución. Tareas hechas: T1-T6. Pendientes: T7→T15.
-- **Frontend (portfolio-frontend/)**: rutas `/es/` y `/en/` generadas. Layout + Header + Footer + ThemeToggle + LanguageToggle + i18n + constants + Hero + About funcionando y bilingües. `npm run build` y `npm run lint` limpios. Consola del navegador sin errores.
+- **Spec 001 (Portfolio bilingüe)**: T1-T15 COMPLETADAS. La web está terminada: home, 2 proyectos con detalle, privacidad, 404, todo en ES/EN.
+- **Frontend (portfolio-frontend/)**: `npm run build` y `npm run lint` limpios. Consola del navegador sin errores ni 404. Verificado en Chrome a 375/768/1440px, light y dark.
 - **Tema**: store único en `src/lib/theme.ts` (localStorage + prefers-color-scheme) leído con `useSyncExternalStore`. `ThemeProvider.tsx` exporta el hook `useTheme()`; ya no es un Provider de contexto.
+- **PENDIENTE PARA QUE FUNCIONE EL FORMULARIO**: definir `WEB3FORMS_KEY` en las variables de entorno de Vercel (documentada en `.env.example`). Sin ella, `POST /api/contact` devuelve 500 y el visitante ve el email en texto plano.
 - **TFG (la_nueva_era/)**: desplegado y funcionando en `https://la-nueva-era-api.onrender.com`. `/api/health` = 200. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app:app"`. Falta migrar datos MySQL → Neon y servir el build de React.
 - **Neon**: proyecto `rough-bar-22432276`, schemas `tfg`, `node_api`, `portfolio`. Usuario `tfg_user` con password en DB (⚠️ mover a variable de entorno).
 - **Upstash**: DB `natural-rattler-221300`. Sin conectar (blacklist JWT + rate limiting pendientes).
 - **Render**: Web Service `la-nueva-era-api` desplegado desde GitHub (`edu444477/Portfolio`). Render NO lee render.yaml salvo Blueprint: el dashboard manda.
 - **Vercel**: deploy automático desde la raíz del repo (monorepo). vercel.json en raíz, NO en portfolio-frontend.
-- **.opencode/ COMPLETO**: 4 agents, 10 commands, 5 skills propias. Docs: docs/constitution.md, docs/deployment.md.
 
 ## Decisiones (y por qué)
 
@@ -35,23 +35,20 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Content Collections `type: 'data'`** → un objeto por archivo. Un array en un solo `.json` rompe el sync (`Expected type "object", received "array"`). technologies va en 17 ficheros sueltos.
 - **Neon connection string**: pooled lleva `-pooler` en el hostname y `channel_binding=require`. No quitarlo. Añadir siempre `&options=-csearch_path%3Dtfg`.
 - **Astro: `Astro.props` NO lleva los params de ruta.** En `src/pages/[lang]/...` el idioma se lee de `Astro.params.lang`. Usar `Astro.props` da `undefined` y revienta con `Cannot read properties of undefined` al indexar `dicts[lang]`.
-- **Astro usa `class=`, no `className=`.** `className` solo es válido en componentes React (.tsx). En `.astro` se renderiza como atributo vacío → la sección sale sin estilos y no hay error visible. Contact/Experience/Projects/TechStack aún lo tienen (pendiente en T7-T10).
+- **Astro: en `.astro` conviven DOS atributos que NO son intercambiables.** Elementos HTML → `class=`. Componentes React (Heroicons) → `className=`, porque reciben props de React. Usar `class=` en un Heroicon deja el SVG sin tamaño y se estira al 100% del contenedor (parece un icono gigante en medio de la página). Usar `className=` en HTML no aplica estilo. Los 4 fallos juntos bannedron toda la web sin estilos ni errores visibles.
+- **No escribir JSX de React en plantillas `.astro`**: `return (...)`, `key={}`, `<Component/>` dentro de `.map()` no existen en Astro. Usa `{lista.map(x => (<li>...</li>))}` sin `return`, y `key` es opcional.
 - **Los islands de Astro se renderizan FUERA del árbol de React.** Un `<ContextProvider client:load>` en el Layout no alcanza a `Header`/`Footer`: Astro los serializa aparte y salta con "must be used within a ThemeProvider". Para estado compartido entre islands usar un store exterior (como `src/lib/theme.ts`), no contexto.
 - **Para leer localStorage en React sin hydration mismatch**: `useSyncExternalStore`, no `useState` + `useEffect` con `setMounted(true)`. La regla `react-hooks/set-state-in-effect` de plugin v7 lo marca como error.
-- **ESLint 9 = flat config**: `eslint.config.mjs`, y `--ext` ya no existe (el script es `eslint .`). `eslint-plugin-astro@3.x` exige ESLint ≥10; con ESLint 9 hay que fijar `eslint-plugin-astro@1.3.1`.
-- `tsc --noEmit` directo no entiende ficheros `.astro`: da falsos errores. Para tipos reales usar `astro check`. Los errores preexistentes de barrels `index.ts` (imports con nombre vs default) son conocidos.
-- **`src/styles/global.css` NO existe todavía** (pendiente de T13). Tailwind ya inyecta sus utilidades vía @astrojs/tailwind, así que el sitio tiene estilos, pero sin el CSS global faltan variables, skip link y prefers-reduced-motion.
+- **ESLint 9 = flat config**: `eslint.config.mjs`, y `--ext` ya no existe (el script es `eslint .`). `eslint-plugin-astro@3.x` exige ESLint ≥10 → con ESLint 9 fijar `eslint-plugin-astro@1.3.1`. Añadir `.vercel/**` a `ignores`, si no lint escanea 1000+ errores del build.
+- **Con `output: 'server'` hace falta un adapter** (`@astrojs/vercel@8.0.0` para Astro 5; la v11 exige Astro 7) y va en `adapter:`, NO dentro de `integrations: []`. El build pasa a generar `dist/client` + `.vercel/output`, y `astro preview` ya no sirve: usar `http-server dist/client`.
+- `tsc --noEmit` directo no entiende ficheros `.astro`: da falsos errores. Para tipos reales usar `astro check`.
 
 ## Próximos pasos
 
-- [ ] **T7. Experience + Education** (timeline). Arreglar `className=` → `class=` en `Experience.astro` (sale sin estilos)
-- [ ] **T8. Projects list + detail** + arreglar `className` en Projects.astro
-- [ ] **T9. TechStack** + `className` en TechStack.astro
-- [ ] **T10. Contact form + api/contact.ts** + `className` en Contact.astro
-- [ ] **T11-T12.** Páginas privacy y 404 ES/EN
-- [ ] **T13.** Crear `src/styles/global.css` (Tailwind directives, CSS variables, skip link, foco visible, prefers-reduced-motion)
-- [ ] **T14-T15.** SEO/hreflang/sitemap, migración de cadenas restantes, Lighthouse + axe
+- [ ] **Definir `WEB3FORMS_KEY` en Vercel** para que el formulario de contacto funcione de verdad
+- [ ] **Desplegar y verificar en producción** (`https://portfolio-delta-eight-yx2zi6pmny.vercel.app`): comprobar que las páginas prerenderizadas se sirven y que la función `/api/contact` responde
 - [ ] Arreglar los barrels `src/components/*/index.ts`: exportan `{ Header }` de un módulo con `export default` → error TS. Usar default export o `export { default as X }`
+- [ ] Traducir el contenido de los proyectos yempleos a EN (ahora el interfaz está en ambos idiomas pero el texto largo de Content Collections solo existe en ES)
 - [ ] Migrar tablas MySQL (PythonAnywhere) → Neon schema `tfg`
 - [ ] Servir el build de React del TFG (`templates/static/assets/` ya están; comprobar que `/assets/...` resuelven en Flask)
 - [ ] Verificar CORS real desde `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` contra la API
