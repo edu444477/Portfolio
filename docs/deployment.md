@@ -116,6 +116,53 @@ curl https://la-nueva-era-api.onrender.com/api/health
 SELECT current_schema();
 ```
 
+## Formulario de contacto (Web3Forms)
+
+El formulario **no funciona hasta que exista la variable `WEB3FORMS_KEY`**. Sin ella, `POST /api/contact` devuelve 500 y el visitante ve el email en texto plano como salida alternativa.
+
+### 1. Conseguir la clave
+
+1. Entra en <https://web3forms.com> con tu email
+2. Verifica el email (te llega un enlace)
+3. Copia la **Access Key** que aparece en el dashboard
+
+### 2. Configurarla en Vercel
+
+```
+Vercel → tu proyecto → Settings → Environment Variables
+```
+
+| Campo | Valor |
+|---|---|
+| Name | `WEB3FORMS_KEY` |
+| Value | tu access key |
+| Environments | marcar **Production**, **Preview** y **Development** |
+
+Guarda y redeploya: **Deployments → ⋮ → Redeploy** en el deployment actual.
+(Alternativa desde terminal: `vercel env add WEB3FORMS_KEY`.)
+
+> **Importante:** la variable **no** lleva prefijo `PUBLIC_`. Sin `PUBLIC_`, Astro la mantiene solo en el servidor y nunca viaja en el bundle del navegador. Es justamente lo que evita que cualquiera pueda.usar tu clave para enviarte spam.
+
+### 3. Comprobar que funciona
+
+```
+curl -X POST https://portfolio-delta-eight-yx2zi6pmny.vercel.app/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Prueba","email":"prueba@example.com","subject":"Hola","message":"Mensaje de prueba","website":""}'
+```
+
+Respuesta correcta: `{"success":true}` y llega un email a tu bandeja.
+
+### 4. Configuración en Web3Forms (opcional)
+
+En el dashboard puedes filtrar por IP, añadir CAPTCHA y ver las estadísticas de envíos.
+
+### Rate limiting
+
+Web3Forms filtra por IP automáticamente. Si te abusan, añade un rate limit en `src/pages/api/contact.ts` (por ejemplo con Upstash, que ya está en el proyecto) antes de reenviar a Web3Forms.
+
+---
+
 ## Cold starts
 
 Render duerme el servicio tras 15 min sin tráfico. El primer request tras el sleep tarda ~30s. Es el comportamiento normal del plan free.
@@ -131,6 +178,8 @@ Para evitarlo en demos, llama `/api/health` cada 10 minutos desde un cron extern
 | CORS error | dominio no está en `CORS_ORIGINS` | añade el dominio exacto, sin barra final |
 | Render no clona el repo | GitHub App sin permiso | Settings → Repository → reconnect |
 | Build falla en Vercel | schema Zod vs MDX inconsistentes | revisa `src/content/config.ts` contra todos los `.mdx` |
+| Formulario devuelve 500 | falta `WEB3FORMS_KEY` en Vercel | Settings → Environment Variables → redeploy |
+| Rutas `/es/projects/la_nueva_eraen/` | idioma en el nombre del fichero | las carpetas van por idioma: `localized-es/`, `localized-en/` |
 
 ## Coste
 

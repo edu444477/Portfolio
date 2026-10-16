@@ -7,7 +7,7 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Spec 001 (Portfolio bilingüe)**: T1-T15 COMPLETADAS. La web está terminada: home, 2 proyectos con detalle, privacidad, 404, todo en ES/EN.
 - **Frontend (portfolio-frontend/)**: `npm run build` y `npm run lint` limpios. Consola del navegador sin errores ni 404. Verificado en Chrome a 375/768/1440px, light y dark.
 - **Tema**: store único en `src/lib/theme.ts` (localStorage + prefers-color-scheme) leído con `useSyncExternalStore`. `ThemeProvider.tsx` exporta el hook `useTheme()`; ya no es un Provider de contexto.
-- **PENDIENTE PARA QUE FUNCIONE EL FORMULARIO**: definir `WEB3FORMS_KEY` en las variables de entorno de Vercel (documentada en `.env.example`). Sin ella, `POST /api/contact` devuelve 500 y el visitante ve el email en texto plano.
+- **PENDIENTE: definir `WEB3FORMS_KEY` en las variables de entorno de Vercel.** Es lo único que impide que el formulario de contacto funcione. Ver `docs/deployment.md`.
 - **TFG (la_nueva_era/)**: desplegado y funcionando en `https://la-nueva-era-api.onrender.com`. `/api/health` = 200. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app:app"`. Falta migrar datos MySQL → Neon y servir el build de React.
 - **Neon**: proyecto `rough-bar-22432276`, schemas `tfg`, `node_api`, `portfolio`. Usuario `tfg_user` con password en DB (⚠️ mover a variable de entorno).
 - **Upstash**: DB `natural-rattler-221300`. Sin conectar (blacklist JWT + rate limiting pendientes).
@@ -49,6 +49,8 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - [ ] **Desplegar y verificar en producción** (`https://portfolio-delta-eight-yx2zi6pmny.vercel.app`): comprobar que las páginas prerenderizadas se sirven y que la función `/api/contact` responde
 - [ ] Arreglar los barrels `src/components/*/index.ts`: exportan `{ Header }` de un módulo con `export default` → error TS. Usar default export o `export { default as X }`
 - [ ] Traducir el contenido de los proyectos yempleos a EN (ahora el interfaz está en ambos idiomas pero el texto largo de Content Collections solo existe en ES)
+- **Contenido bilingüe**: carpetas por idioma, `<coleccion>/localized-es/<slug>.mdx` y `localized-en/<slug>.mdx` con el mismo nombre. `src/lib/content.ts` resuelve por idioma y cae al español si falta traducción. El schema Zod no cambia.
+- **Trampa**: el idioma NO puede ir en el nombre del fichero (`la_nueva_era.en.mdx` → Astro devuelve slug `la_nueva_eraen` y rutas rotas). Por eso son carpetas. Además en `getStaticPaths` hay que pasar `baseSlug(entry.slug)` en `params`, porque Astro no lee el slug mapeado.
 - [ ] Migrar tablas MySQL (PythonAnywhere) → Neon schema `tfg`
 - [ ] Servir el build de React del TFG (`templates/static/assets/` ya están; comprobar que `/assets/...` resuelven en Flask)
 - [ ] Verificar CORS real desde `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` contra la API
