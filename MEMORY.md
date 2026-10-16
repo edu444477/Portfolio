@@ -4,8 +4,9 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 
 ## Estado actual (2026-10-16)
 
-- **Spec 001 (Portfolio bilingüe)**: aprobada y en ejecución. Tareas hechas: T1, T2, T3, T5, T6. Pendientes: T4 (LanguageToggle island) y T7→T15.
-- **Frontend (portfolio-frontend/)**: rutas `/es/` y `/en/` generadas. Layout + Header + Footer + ThemeToggle + ThemeProvider + i18n + constants + Hero + About funcionando y bilingües. Build verde.
+- **Spec 001 (Portfolio bilingüe)**: aprobada y en ejecución. Tareas hechas: T1-T6. Pendientes: T7→T15.
+- **Frontend (portfolio-frontend/)**: rutas `/es/` y `/en/` generadas. Layout + Header + Footer + ThemeToggle + LanguageToggle + i18n + constants + Hero + About funcionando y bilingües. `npm run build` y `npm run lint` limpios. Consola del navegador sin errores.
+- **Tema**: store único en `src/lib/theme.ts` (localStorage + prefers-color-scheme) leído con `useSyncExternalStore`. `ThemeProvider.tsx` exporta el hook `useTheme()`; ya no es un Provider de contexto.
 - **TFG (la_nueva_era/)**: desplegado y funcionando en `https://la-nueva-era-api.onrender.com`. `/api/health` = 200. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app:app"`. Falta migrar datos MySQL → Neon y servir el build de React.
 - **Neon**: proyecto `rough-bar-22432276`, schemas `tfg`, `node_api`, `portfolio`. Usuario `tfg_user` con password en DB (⚠️ mover a variable de entorno).
 - **Upstash**: DB `natural-rattler-221300`. Sin conectar (blacklist JWT + rate limiting pendientes).
@@ -34,24 +35,23 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas.
 - **Content Collections `type: 'data'`** → un objeto por archivo. Un array en un solo `.json` rompe el sync (`Expected type "object", received "array"`). technologies va en 17 ficheros sueltos.
 - **Neon connection string**: pooled lleva `-pooler` en el hostname y `channel_binding=require`. No quitarlo. Añadir siempre `&options=-csearch_path%3Dtfg`.
 - **Astro: `Astro.props` NO lleva los params de ruta.** En `src/pages/[lang]/...` el idioma se lee de `Astro.params.lang`. Usar `Astro.props` da `undefined` y revienta con `Cannot read properties of undefined` al indexar `dicts[lang]`.
-- **Astro usa `class=`, no `className=`.** `className` solo es válido en componentes React (.tsx). En `.astro` se renderiza como atributo vacío → la sección sale sin estilos y no hay error visible. Ojo con Contact/Experience/Projects/TechStack, que aún tienen `className` (pendiente en sus tareas).
-- **`npm run lint` está roto**: ESLint 9 requiere `eslint.config.mjs` (flat config) y no acepta `--ext`. El script existe pero falla siempre. Arreglar en T15 o crear el config.
+- **Astro usa `class=`, no `className=`.** `className` solo es válido en componentes React (.tsx). En `.astro` se renderiza como atributo vacío → la sección sale sin estilos y no hay error visible. Contact/Experience/Projects/TechStack aún lo tienen (pendiente en T7-T10).
+- **Los islands de Astro se renderizan FUERA del árbol de React.** Un `<ContextProvider client:load>` en el Layout no alcanza a `Header`/`Footer`: Astro los serializa aparte y salta con "must be used within a ThemeProvider". Para estado compartido entre islands usar un store exterior (como `src/lib/theme.ts`), no contexto.
+- **Para leer localStorage en React sin hydration mismatch**: `useSyncExternalStore`, no `useState` + `useEffect` con `setMounted(true)`. La regla `react-hooks/set-state-in-effect` de plugin v7 lo marca como error.
+- **ESLint 9 = flat config**: `eslint.config.mjs`, y `--ext` ya no existe (el script es `eslint .`). `eslint-plugin-astro@3.x` exige ESLint ≥10; con ESLint 9 hay que fijar `eslint-plugin-astro@1.3.1`.
 - `tsc --noEmit` directo no entiende ficheros `.astro`: da falsos errores. Para tipos reales usar `astro check`. Los errores preexistentes de barrels `index.ts` (imports con nombre vs default) son conocidos.
 - **`src/styles/global.css` NO existe todavía** (pendiente de T13). Tailwind ya inyecta sus utilidades vía @astrojs/tailwind, así que el sitio tiene estilos, pero sin el CSS global faltan variables, skip link y prefers-reduced-motion.
 
 ## Próximos pasos
 
-- [ ] **T4. LanguageToggle** (React island): el componente existe en `components/ui/LanguageToggle.tsx` y ya se usa en Header, pero T4 no está marcada ni verificada (idioma del botón, navegación, aria-label bilingüe)
-- [ ] **T7. Experience + Education** (timeline). Ojo: `Experience.astro` tiene `className=` → sin estilos, y las claves nav están sin traducir (`nav.inicio` literal en el Header)
+- [ ] **T7. Experience + Education** (timeline). Arreglar `className=` → `class=` en `Experience.astro` (sale sin estilos)
 - [ ] **T8. Projects list + detail** + arreglar `className` en Projects.astro
 - [ ] **T9. TechStack** + `className` en TechStack.astro
 - [ ] **T10. Contact form + api/contact.ts** + `className` en Contact.astro
 - [ ] **T11-T12.** Páginas privacy y 404 ES/EN
 - [ ] **T13.** Crear `src/styles/global.css` (Tailwind directives, CSS variables, skip link, foco visible, prefers-reduced-motion)
 - [ ] **T14-T15.** SEO/hreflang/sitemap, migración de cadenas restantes, Lighthouse + axe
-- [ ] Arreglar `npm run lint`: crear `eslint.config.mjs` para ESLint 9 flat config
-- [ ] Arreglar SVG corrupto en `components/ui/BrandIcons.tsx` (línea 9: hay un `path` de GitHub pegado dentro de otro → error `<path> attribute d` en consola)
-- [ ] Añadir `favicon.ico` (404 en consola)
+- [ ] Arreglar los barrels `src/components/*/index.ts`: exportan `{ Header }` de un módulo con `export default` → error TS. Usar default export o `export { default as X }`
 - [ ] Migrar tablas MySQL (PythonAnywhere) → Neon schema `tfg`
 - [ ] Servir el build de React del TFG (`templates/static/assets/` ya están; comprobar que `/assets/...` resuelven en Flask)
 - [ ] Verificar CORS real desde `https://portfolio-delta-eight-yx2zi6pmny.vercel.app` contra la API
