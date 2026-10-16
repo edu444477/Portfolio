@@ -57,10 +57,12 @@ export default function Header({ lang, pathname }: HeaderProps) {
 
   return (
     <header
+      // Con el panel movil abierto el header debe tener fondo opaco: si no,
+      // el menu se dibuja encima del Hero y ambos textos se solapan.
       className={clsx(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled
-          ? 'bg-white/90 dark:bg-dark-950/90 backdrop-blur-md shadow-sm border-b border-dark-200 dark:border-dark-800'
+        scrolled || mobileMenuOpen
+          ? 'bg-white/95 dark:bg-dark-950/95 backdrop-blur-md shadow-sm border-b border-dark-200 dark:border-dark-800'
           : 'bg-transparent'
       )}
       role="banner"
@@ -119,7 +121,7 @@ export default function Header({ lang, pathname }: HeaderProps) {
           <div
             ref={mobileMenuRef}
             id="mobile-menu"
-            className="md:hidden py-4 border-t border-dark-200 dark:border-dark-700 animate-slide-down"
+            className="md:hidden py-4 max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-dark-200 dark:border-dark-700 animate-slide-down"
             role="navigation"
             aria-label={t('nav.mobile', lang)}
             tabIndex={-1}
